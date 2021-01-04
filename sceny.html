@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Pocket Home</title>
+    <link rel="stylesheet" href="main_sceny.css">
+
+    <link href="https://cdn.jsdelivr.net/semantic-ui/2.1.8/semantic.min.css" rel="stylesheet"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.1.8/semantic.min.js"></script>
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+
+</head>
+<body>
+<nav class="navigation-bar">
+    <img class="logo" src="img/logo.png" alt="logo">
+    <ul>
+        <li><a href="#">Sceny</a></li>
+    </ul>
+</nav>
+<div style="clear:both;"></div>
+<div class="form">
+
+    <h1>Nazwa</h1>
+    <p>Podaj jak ma nazywać się scena</p>
+    <div class="ui input">
+        <input id="name" type="text" placeholder="Nazwa sceny">
+    </div>
+    <p id="warning1" class="warning"></p>
+
+    <h1>Warunek</h1>
+    <p>Określ sposób uruchomienia sceny</p>
+    <div class="warunek">
+        <label>
+            <input type="radio" id="recznie" name="warunek" value="recznie" checked onclick="ShowHideDiv()"> Uruchom
+            ręcznie
+        </label>
+        <label>
+            <input type="radio" id="dzien-godzina" name="warunek" value="dzien_godzina" onclick="ShowHideDiv()"> Dzień i
+            godzina
+        </label>
+    </div>
+
+    <div class="dzien_godzina" id="dzien-godzina-more">
+        <input type="time" id="time" name="time">
+        <p id="warning2" class="warning"></p>
+        <form class="dowPicker">
+            <div class="dowPickerOption">
+                <input name="datepicker" value="P" type="checkbox" id="dow1">
+                <label for="dow1">P</label>
+            </div>
+            <div class="dowPickerOption">
+                <input name="datepicker" value="W" type="checkbox" id="dow2">
+                <label for="dow2">W</label>
+            </div>
+            <div class="dowPickerOption">
+                <input name="datepicker" value="Ś" type="checkbox" id="dow3">
+                <label for="dow3">Ś</label>
+            </div>
+            <div class="dowPickerOption">
+                <input name="datepicker" value="C" type="checkbox" id="dow4">
+                <label for="dow4">C</label>
+            </div>
+            <div class="dowPickerOption">
+                <input name="datepicker" value="P" type="checkbox" id="dow5">
+                <label for="dow5">P</label>
+            </div>
+            <div class="dowPickerOption">
+                <input name="datepicker" value="S" type="checkbox" id="dow6">
+                <label for="dow6">S</label>
+            </div>
+            <div class="dowPickerOption">
+                <input name="datepicker" value="N" type="checkbox" id="dow7">
+                <label for="dow7">N</label>
+            </div>
+
+        </form>
+
+    </div>
+    <p id="warning3" class="warning"></p>
+    <h1>Akcesoria</h1>
+    <p>Wybierz urządzenie i określ jego ustawienia</p>
+    <select name="akcesoria" id="akcesoria-select" class="ui search selection dropdown">
+        <option value="">Dodaj urządzenie</option>
+        <option value="lampka_nocna">Lampka nocna</option>
+        <option value="oswietlenie">Oświetlenie w łazience</option>
+        <option value="tv">TV w salonie</option>
+        <option value="glosnik">Głośnik w pokoju Andrzeja</option>
+        <option value="air_conditioning">Klimatyzacja</option>
+    </select>
+
+    <button type="button" class="button-add-device" onclick="addDevie()">Dodaj</button>
+
+    <div class="device" id="lampka_nocna">
+        <div>
+            <h2>Lampka nocna
+                <i class='far fa-trash-alt' onclick="deleteDevice('lampka_nocna')"></i>
+            </h2>
+        </div>
+        <div class="option">
+            <i class='far fa-lightbulb'></i>
+            <form class="radio">
+                <label>
+                    <input type="radio" id="1342" name="warunek" value="on" checked> Włącz
+                </label>
+                <label>
+                    <input type="radio" id="1sdf" name="warunek" value="off"> Wyłącz
+                </label>
+            </form>
+            <p class="warning">Wybierz jedno</p>
+        </div>
+    </div>
+
+
+    <div class="device" id="oswietlenie">
+        <div>
+            <h2>Oświetlenie w łazience
+                <i class='far fa-trash-alt' onclick="deleteDevice('oswietlenie')"></i>
+            </h2>
+        </div>
+        <div class="option">
+            <i class='far fa-lightbulb'></i>
+            <form class="radio">
+                <label>
+                    <input checked type="radio" name="warunek" value="on"> Włącz
+                </label>
+                <label>
+                    <input type="radio" name="warunek" value="off"> Wyłącz
+                </label>
+            </form>
+            <p class="warning">Wybierz jedno</p>
+
+            <div>
+                <p>Intensywność światła</p>
+                <span>10%</span>
+                <input type="range" id="intensity" name="intensity"
+                       min="10" max="100">
+                <span>100%</span>
+            </div>
+
+            <div class="color-header">
+                <p>Kolor światła</p>
+
+                <div class="colorPicker">
+                    <div class="colorPickerOption">
+                        <input type="radio" id="color1" name="color">
+                        <label id="colora" for="color1"></label>
+                    </div>
+                    <div class="colorPickerOption">
+                        <input type="radio" id="color2" name="color">
+                        <label id="colorb" for="color2"></label>
+                    </div>
+                    <div class="colorPickerOption">
+                        <input type="radio" id="color3" name="color">
+                        <label id="colorc" for="color3"></label>
+                    </div>
+                    <div class="colorPickerOption">
+                        <input type="radio" id="color4" name="color">
+                        <label id="colord" for="color4"></label>
+                    </div>
+                    <div class="colorPickerOption">
+                        <input type="radio" id="color5" name="color">
+                        <label id="colore" for="color5"></label>
+                    </div>
+                    <div class="colorPickerOption">
+                        <input type="radio" id="color6" name="color">
+                        <label id="colorf" for="color6"></label>
+                    </div>
+                    <div class="colorPickerOption">
+                        <input type="radio" id="color7" name="color">
+                        <label id="colorg" for="color7"></label>
+                    </div>
+                </div>
+                <p class="warning">Wybierz jedno</p>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="device" id="glosnik">
+        <div>
+            <h2>Głośnik w pokoju Andrzeja
+                <i class='far fa-trash-alt' onclick="deleteDevice('glosnik')"></i>
+            </h2>
+        </div>
+        <div class="option">
+            <i class="fas fa-music"></i>
+            <form class="radio">
+                <label>
+                    <input checked type="radio" name="warunek" value="on"> Włącz
+                </label>
+                <label>
+                    <input type="radio" name="warunek" value="off"> Wyłącz
+                </label>
+            </form>
+            <p class="warning">Wybierz jedno</p>
+
+            <div>
+                <p>Głośność</p>
+                <span>10%</span>
+                <input type="range" id="volume" name="intensity"
+                       min="10" max="100">
+                <span>100%</span>
+            </div>
+            <div class="color-header">
+                <p>Wybierz playlistę</p>
+                <select name="playlist" id="playlist-select" class="ui search selection dropdown">
+                    <option value="">Przeglądaj</option>
+                    <option value="hity">Polskie hity</option>
+                    <option value="trening">Trening w domu</option>
+                    <option value="koledy">Kolędy</option>
+                    <option value="ballady">Love Ballads</option>
+                    <option value="metal">New Metal Tracks</option>
+                    <option value="domowka">Domówka</option>
+                    <option value="dance">Dance Classic</option>
+                    <option value="rock">Rock Party</option>
+                    <option value="bifor">Bifor</option>
+                </select>
+            </div>
+            <p class="warning">Nie wybrano playlisty do odtworzenia</p>
+        </div>
+    </div>
+
+
+    <div class="device" id="air_conditioning">
+        <div>
+            <h2>Klimatyzacja
+                <i class='far fa-trash-alt' onclick="deleteDevice('air_conditioning')"></i>
+            </h2>
+        </div>
+        <div class="option">
+            <i class="fas fa-wind"></i>
+            <form class="radio">
+                <label>
+                    <input checked type="radio" name="warunek" value="on"> Włącz
+                </label>
+                <label>
+                    <input type="radio" name="warunek" value="off"> Wyłącz
+                </label>
+            </form>
+            <p class="warning">Wybierz jedno</p>
+        </div>
+
+        <div class="temperature">
+            <div class="temp1">
+                <button onclick="decrementValue()"><i class="fas fa-minus"></i></button>
+            </div>
+            <div class="temp2"><h2 id="temp">20 &#x2103</h2></div>
+            <div class="temp1">
+                <button onclick="incrementValue()"><i class="fas fa-plus"></i></button>
+            </div>
+            <div style="clear:both;"></div>
+        </div>
+
+        <div class="power">
+
+            <span>Moc</span>
+            <div class="powerPickerOption">
+                <input type="radio" id="powerSmall" name="moc">
+                <label  for="powerSmall"><i  id="moc1" class="fas fa-fan"></i></label>
+            </div>
+            <div class="powerPickerOption">
+                <input type="radio" id="powerMedium" name="moc">
+                <label  for="powerMedium"><i id="moc2" class="fas fa-fan"></i></label>
+            </div>
+            <div class="powerPickerOption">
+                <input type="radio" id="powerBig" name="moc">
+                <label  for="powerBig"><i id="moc3" class="fas fa-fan"></i></label>
+            </div>
+            <div class="powerPickerOption">
+                <input type="radio" id="auto" name="moc">
+                <label class="button-auto" for="auto"><b>AUTO</b></label>
+            </div>
+
+        </div>
+        <div style="clear:both;"></div>
+        <p class="warning">Wybierz jedno</p>
+
+        <div class="color-header">
+            <span>Tryb</span>
+            <select name="type" id="type-select" class="ui search selection dropdown">
+                <option value="">Przeglądaj</option>
+                <option value="AUTO">AUTO</option>
+                <option value="chłodzenie">Chłodzenie</option>
+                <option value="wentylator">Wntylator</option>
+                <option value="suche">Osuszanie powietrza</option>
+                <option value="Ogrzewanie">ogrzewanie</option>
+                <option value="eco">ECO</option>
+            </select>
+        </div>
+        <p class="warning">Nie wybrano trybu pracy</p>
+
+
+
+    </div>
+
+
+</div>
+
+<div class="buttons">
+    <button type="button" class="button button-cancel" onclick="location.href = 'searchResult.html';">Anuluj
+    </button>
+    <button type="button" id="add_button" class="button button-add" onclick="validate()">Dodaj scenę
+    </button>
+</div>
+
+<script>
+    $('#akcesoria-select').dropdown();
+    $('#playlist-select').dropdown();
+    $('#type-select').dropdown();
+
+    var count_device = 0;
+    var sceny_names = ["Włącz światło w salonie", "Jestem w pracy"];
+    const button = document.getElementById('add_button')
+    button.disabled = true;
+
+    function ShowHideDiv() {
+        var chkYes = document.getElementById("dzien-godzina");
+        var dvPassport = document.getElementById("dzien-godzina-more");
+        dvPassport.style.display = chkYes.checked ? "block" : "none";
+    }
+
+    function incrementValue() {
+        var value = document.getElementById("temp").firstChild.nodeValue;
+        value = value.split(" ");
+        var new_value = parseInt(value[0]);
+        new_value = isNaN(new_value) ? 0 : new_value;
+        new_value++;
+        document.getElementById("temp").innerHTML = new_value + " " + value[1];
+        //document.getElementById('number').value = value;
+    }
+
+    function decrementValue() {
+        var value = document.getElementById("temp").firstChild.nodeValue;
+        value = value.split(" ");
+        var new_value = parseInt(value[0]);
+        new_value = isNaN(new_value) ? 0 : new_value;
+        new_value--;
+        document.getElementById("temp").innerHTML = new_value + " " + value[1];
+        //document.getElementById('number').value = value;
+    }
+
+    //funkcja dodoawania urządzeń do sceny
+    function addDevie() {
+        var select = document.getElementById("akcesoria-select");
+        var option_value = select.value;
+        var device = document.getElementById(option_value);
+        if(device.style.display !== "block"){
+            device.style.display = "block";
+            count_device++;
+        }
+        button.disabled = false;
+    }
+
+    function deleteDevice(device_id){
+        var device = document.getElementById(device_id);
+        device.style.display = "none";
+        count_device--;
+
+        if(count_device === 0){
+            button.disabled = true;
+        }
+    }
+
+    function validate() {
+        var new_scene = {};
+        var count_checked_days = 0;
+
+        var checked_days = [];
+
+        var name_correct = false;
+        var day_correct = false;
+        var time_correct = false;
+
+        var name = document.getElementById("name");
+        var dzien_godzina = document.getElementById("dzien-godzina");
+        var warning = document.getElementById("warning1");
+
+        var name_value = name.value;
+
+        if (sceny_names.includes(name_value)) {
+            warning.innerText = "Scena o takiej nazwie już istnieje zmień nazwę";
+            warning.style.display = "block";
+            name_correct = false;
+        } else if (name_value === "") {
+            warning.innerText = "Nie została podana nazwa sceny";
+            warning.style.display = "block";
+            name_correct = false;
+        } else{
+            warning.style.display = "none";
+            name_correct = true;
+        }
+
+        var warning2 = document.getElementById("warning2");
+        if (dzien_godzina.checked) {
+            //jezeli wybrałem dzień i godzine sprawdz:
+            //czy ustawiono czas
+            var time = document.getElementById("time").value;
+            if (time === "") {
+                warning2.innerText = "Nie wybrano godziny rozpoczęcia sceny";
+                warning2.style.display = "block";
+                time_correct = false;
+            } else {
+                warning2.style.display = "none";
+                time_correct = true;
+            }
+
+            //jakie wybrano dni tygodnia
+            var days = document.getElementsByName("datepicker");
+            for (let i = 0; i < days.length; i++) {
+                if (days[i].checked) {
+                    count_checked_days++;
+                    checked_days.push(days[i].value);
+                }
+            }
+
+            //nie wybrano żadnego dnia
+            var warning3 = document.getElementById("warning3");
+            if(count_checked_days === 0){
+                warning3.innerText = "Wybierz przynajniej jeden dzień";
+                warning3.style.display = "block";
+                day_correct = false;
+            }else{
+                day_correct = true;
+                warning3.style.display = "none";
+            }
+
+            if(name_correct === true && day_correct === true && time_correct === true ){
+                new_scene.name = name_value;
+                new_scene.days = checked_days;
+                console.log(new_scene);
+            }
+        // else
+        //     {
+        //         location.href = 'searchResult.html';
+        //     }
+        }
+
+     //   console.log(new_scene);
+    }
+
+</script>
+
+</body>
+</html>

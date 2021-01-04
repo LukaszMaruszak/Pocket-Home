@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pocket Home</title>
+    <link rel="stylesheet" href="main_grupa.css">
+
+    <link href="https://cdn.jsdelivr.net/semantic-ui/2.1.8/semantic.min.css" rel="stylesheet"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.1.8/semantic.min.js"></script>
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+</head>
+<body>
+<nav class="navigation-bar">
+    <img class="logo" src="img/logo.png" alt="logo">
+    <ul>
+        <li><a href="#">Grupa</a></li>
+    </ul>
+</nav>
+<div style="clear:both;"></div>
+<div class="form">
+
+    <h1>Nazwa</h1>
+    <p>Podaj jak ma nazywać się scena</p>
+    <div class="ui input">
+        <input id="name" type="text" placeholder="Nazwa sceny">
+    </div>
+    <p id="warning1" class="warning"></p>
+
+    <h1>Akcesoria</h1>
+    <p>Wybierz urządzenia </p>
+    <select name="akcesoria" id="akcesoria-select" class="ui search selection dropdown">
+        <option value="">Dodaj urządzenie</option>
+        <option value="lampka_nocna">Lampka nocna</option>
+        <option value="oswietlenie">Oświetlenie w łazience</option>
+        <option value="tv">TV w salonie</option>
+        <option value="glosnik">Głośnik w pokoju Andrzeja</option>
+        <option value="air_conditioning">Klimatyzacja</option>
+    </select>
+    <button type="button" class="button-add-device" onclick="addDevie()">Dodaj</button>
+
+
+    <div class="device" id="lampka_nocna">
+        <div>
+
+            <h2>Lampka nocna
+                <i class='far fa-trash-alt' onclick="deleteDevice('lampka_nocna')"></i>
+            </h2>
+            <i class='far fa-lightbulb'></i>
+        </div>
+    </div>
+
+    <div class="device" id="oswietlenie">
+        <div>
+
+            <h2>Oświetlenie w łazience
+                <i class='far fa-trash-alt' onclick="deleteDevice('oswietlenie')"></i>
+            </h2>
+            <i class='far fa-lightbulb'></i>
+        </div>
+    </div>
+
+    <div class="device" id="glosnik">
+        <div>
+
+            <h2>Głośnik w pokoju Andrzeja
+                <i class='far fa-trash-alt' onclick="deleteDevice('glosnik')"></i>
+            </h2>
+            <i class='fas fa-music'></i>
+        </div>
+    </div>
+
+    <div class="device" id="tv">
+        <div>
+
+            <h2>TV w salonie
+                <i class='far fa-trash-alt' onclick="deleteDevice('tv')"></i>
+            </h2>
+            <i class='fas fa-tv'></i>
+        </div>
+    </div>
+
+    <div class="device" id="air_conditioning">
+        <div>
+
+            <h2>Klimatyzacja
+                <i class='far fa-trash-alt' onclick="deleteDevice('air_conditioning')"></i>
+            </h2>
+            <i class='fas fa-wind'></i>
+        </div>
+    </div>
+
+
+
+
+</div>
+
+<div class="buttons">
+    <button type="button" class="button button-cancel" onclick="location.href = 'searchResult.html';">Anuluj
+    </button>
+    <button type="button" id="add_button" class="button button-add" onclick="validate()" >Dodaj scenę
+    </button>
+</div>
+<script>
+    var count_device = 0;
+    var group_names = ["Kuchnia", "Salon"];
+
+    const button = document.getElementById('add_button')
+    button.disabled = true;
+
+    $('#akcesoria-select').dropdown();
+
+    //funkcja dodoawania urządzeń do sceny
+    function addDevie() {
+        var select = document.getElementById("akcesoria-select");
+        var option_value = select.value;
+        var device = document.getElementById(option_value);
+        if(device.style.display !== "block"){
+            device.style.display = "block";
+            count_device++;
+        }
+        button.disabled = false;
+    }
+
+    function deleteDevice(device_id){
+        var device = document.getElementById(device_id);
+        device.style.display = "none";
+        count_device--;
+
+        if(count_device === 0){
+            button.disabled = true;
+        }
+    }
+
+    function validate(){
+        var name = document.getElementById("name");
+        var name_value = name.value;
+        var warning = document.getElementById("warning1");
+        if(group_names.includes(name_value)) {
+            warning.innerText = "Grupa o takiej nazwie już istnieje zmień nazwę";
+            warning.style.display = "block";
+        }
+        else if(name_value === "") {
+            warning.innerText = "Nie została podana nazwa grupy";
+            warning.style.display = "block";
+        }
+        else {
+            location.href = 'searchResult.html';
+        }
+    }
+
+</script>
+</body>
+</html>

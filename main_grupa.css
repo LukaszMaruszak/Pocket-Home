@@ -1,0 +1,123 @@
+body {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.navigation-bar {
+    width: 100%; /* i'm assuming full width */
+    height: 120px; /* change it to desired width */
+}
+
+.logo {
+    margin-top: 13px;
+    margin-right: 10px;
+    float: right;
+    width: 384px;
+    height: 88px;
+}
+
+.navigation-bar ul {
+    text-align: center;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.navigation-bar li {
+    list-style-type: none;
+    display: inline;
+}
+
+.navigation-bar li a {
+    color: black;
+    font-size: 48px;
+    text-decoration: none;
+    line-height: 100px;
+}
+
+.form {
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 20px;
+    background: rgba(172, 170, 170, 0.33);
+    border-radius: 20px;
+}
+
+.button-add-device {
+    margin-left: 10px;
+    padding: 5px 10px;
+    background: #bed0ff;
+    border-radius: 5px;
+}
+
+.button-add-device:hover {
+    background: #9db6ff;
+}
+
+.form h1 {
+    margin-top: 50px;
+}
+
+
+.buttons {
+    float: right;
+    margin-top: 30px;
+    margin-right: 60px;
+}
+
+.button {
+    padding: 12px 42px;
+    font-size: 18px;
+    margin-bottom: 50px;
+}
+
+.button-cancel {
+    background: none;
+    border: none;
+    margin-right: 15px;
+}
+
+.button-cancel:hover {
+    color: #e21111;
+}
+
+.button-add {
+    background: #293973;
+    color: #F0EBE2;
+    border-bottom: 4px solid black;
+    border-right: 4px solid black;
+}
+
+.button-add:hover {
+    background: #1d2b5a;
+}
+
+button:disabled{
+    color: black;
+    background: rgba(172, 170, 170, 0.33);
+}
+
+button:disabled:hover{
+    background: rgba(172, 170, 170, 0.33);
+}
+
+/* styl dodanego urządzenia*/
+.device {
+    display: none;
+    border: 1px solid black;
+    padding: 12px 15px;
+    margin: 15px 0;
+}
+.far, .fas {
+    font-size: 30px;
+}
+
+.fa-trash-alt {
+    float: right;
+    cursor: pointer;
+}
+
+.warning {
+    display: none;
+    color: #e21111;
+}
