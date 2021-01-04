@@ -136,17 +136,35 @@
         var name = document.getElementById("name");
         var name_value = name.value;
         var warning = document.getElementById("warning1");
+
+        var name_correct = false;
+        const max_name = 10;
+
         if(group_names.includes(name_value)) {
             warning.innerText = "Grupa o takiej nazwie już istnieje zmień nazwę";
             warning.style.display = "block";
+            name_correct = false;
         }
         else if(name_value === "") {
             warning.innerText = "Nie została podana nazwa grupy";
             warning.style.display = "block";
+            name_correct = false;
         }
         else {
+            if (name_value.length < max_name) {
+                warning.style.display = "none";
+                name_correct = true;
+            }
+            else{
+                warning.innerText = "Nazwa jest za długa, maksymalna ilość znaków to: " + max_name ;
+                warning.style.display = "block";
+                name_correct = false;
+            }
+        }
+        if( name_correct === true ){
             location.href = 'searchResult.html';
         }
+
     }
 
 </script>

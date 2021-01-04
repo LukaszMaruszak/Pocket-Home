@@ -378,6 +378,7 @@
         var warning = document.getElementById("warning1");
 
         var name_value = name.value;
+        const max_name = 10;
 
         if (sceny_names.includes(name_value)) {
             warning.innerText = "Scena o takiej nazwie już istnieje zmień nazwę";
@@ -387,9 +388,16 @@
             warning.innerText = "Nie została podana nazwa sceny";
             warning.style.display = "block";
             name_correct = false;
-        } else{
-            warning.style.display = "none";
-            name_correct = true;
+        } else {
+            if (name_value.length < max_name) {
+                warning.style.display = "none";
+                name_correct = true;
+            }
+            else{
+                warning.innerText = "Nazwa jest za długa, maksymalna ilość znaków to: " + max_name ;
+                warning.style.display = "block";
+
+            }
         }
 
         var warning2 = document.getElementById("warning2");
@@ -429,7 +437,6 @@
             if(name_correct === true && day_correct === true && time_correct === true ){
                 new_scene.name = name_value;
                 new_scene.days = checked_days;
-                console.log(new_scene);
             }
         // else
         //     {
