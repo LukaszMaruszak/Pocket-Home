@@ -42,8 +42,13 @@
     </div>
 
     <div class="dzien_godzina" id="dzien-godzina-more">
-        <input type="time" id="time" name="time">
+
+        Rozpocznij o <input type="time" id="time" name="time">
         <p id="warning2" class="warning"></p>
+
+        Zakończ o <input type="time" id="timeend" name="time">
+        <p id="warning22" class="warning"></p>
+
         <form class="dowPicker">
             <div class="dowPickerOption">
                 <input name="datepicker" value="P" type="checkbox" id="dow1">
@@ -62,7 +67,7 @@
                 <label for="dow4">C</label>
             </div>
             <div class="dowPickerOption">
-                <input name="datepicker" value="P" type="checkbox" id="dow5">
+                <input name="datepicker" value="Pt" type="checkbox" id="dow5">
                 <label for="dow5">P</label>
             </div>
             <div class="dowPickerOption">
@@ -99,15 +104,15 @@
         </div>
         <div class="option">
             <i class='far fa-lightbulb'></i>
-            <form class="radio">
+            <form id="lampka_form" class="radio" onchange="validateOption('lampka_nocna', 'lampka')">
                 <label>
-                    <input type="radio" id="1342" name="warunek" value="on" checked> Włącz
+                    <input type="radio" name="lampka" value="on"> Włącz
                 </label>
                 <label>
-                    <input type="radio" id="1sdf" name="warunek" value="off"> Wyłącz
+                    <input type="radio" name="lampka" value="off"> Wyłącz
                 </label>
             </form>
-            <p class="warning">Wybierz jedno</p>
+            <p class="warning" id="lampka"></p>
         </div>
     </div>
 
@@ -120,15 +125,15 @@
         </div>
         <div class="option">
             <i class='far fa-lightbulb'></i>
-            <form class="radio">
+            <form id="oswietlenie_form" class="radio" onchange="validateOption('oswietlenie', 'swiatlo')">
                 <label>
-                    <input checked type="radio" name="warunek" value="on"> Włącz
+                    <input  type="radio" name="swiatlo" value="on"> Włącz
                 </label>
                 <label>
-                    <input type="radio" name="warunek" value="off"> Wyłącz
+                    <input type="radio" name="swiatlo" value="off"> Wyłącz
                 </label>
             </form>
-            <p class="warning">Wybierz jedno</p>
+            <p class="warning" id="swiatlo"></p>
 
             <div>
                 <p>Intensywność światła</p>
@@ -143,7 +148,7 @@
 
                 <div class="colorPicker">
                     <div class="colorPickerOption">
-                        <input type="radio" id="color1" name="color">
+                        <input type="radio" id="color1" name="color" checked>
                         <label id="colora" for="color1"></label>
                     </div>
                     <div class="colorPickerOption">
@@ -186,15 +191,15 @@
         </div>
         <div class="option">
             <i class="fas fa-music"></i>
-            <form class="radio">
+            <form class="radio" onchange="validateOption('glosnik', 'muza')">
                 <label>
-                    <input checked type="radio" name="warunek" value="on"> Włącz
+                    <input  type="radio" name="muza" value="on"> Włącz
                 </label>
                 <label>
-                    <input type="radio" name="warunek" value="off"> Wyłącz
+                    <input type="radio" name="muza" value="off"> Wyłącz
                 </label>
             </form>
-            <p class="warning">Wybierz jedno</p>
+            <p class="warning" id="muza"></p>
 
             <div>
                 <p>Głośność</p>
@@ -231,15 +236,15 @@
         </div>
         <div class="option">
             <i class="fas fa-wind"></i>
-            <form class="radio">
+            <form class="radio" onchange="validateOption('air_conditioning', 'klima')">
                 <label>
-                    <input checked type="radio" name="warunek" value="on"> Włącz
+                    <input  type="radio" name="klima" value="on"> Włącz
                 </label>
                 <label>
-                    <input type="radio" name="warunek" value="off"> Wyłącz
+                    <input type="radio" name="klima" value="off"> Wyłącz
                 </label>
             </form>
-            <p class="warning">Wybierz jedno</p>
+            <p class="warning" id="klima"></p>
         </div>
 
         <div class="temperature">
@@ -258,15 +263,15 @@
             <span>Moc</span>
             <div class="powerPickerOption">
                 <input type="radio" id="powerSmall" name="moc">
-                <label  for="powerSmall"><i  id="moc1" class="fas fa-fan"></i></label>
+                <label for="powerSmall"><i id="moc1" class="fas fa-fan"></i></label>
             </div>
             <div class="powerPickerOption">
                 <input type="radio" id="powerMedium" name="moc">
-                <label  for="powerMedium"><i id="moc2" class="fas fa-fan"></i></label>
+                <label for="powerMedium"><i id="moc2" class="fas fa-fan"></i></label>
             </div>
             <div class="powerPickerOption">
                 <input type="radio" id="powerBig" name="moc">
-                <label  for="powerBig"><i id="moc3" class="fas fa-fan"></i></label>
+                <label for="powerBig"><i id="moc3" class="fas fa-fan"></i></label>
             </div>
             <div class="powerPickerOption">
                 <input type="radio" id="auto" name="moc">
@@ -292,7 +297,6 @@
         <p class="warning">Nie wybrano trybu pracy</p>
 
 
-
     </div>
 
 
@@ -309,6 +313,45 @@
     $('#akcesoria-select').dropdown();
     $('#playlist-select').dropdown();
     $('#type-select').dropdown();
+
+    var scena1 = {
+        type: "day_and_hour",
+        name: "Jestem w pracy",
+        timeStart: "08:00",
+        timeEnd: "16:00",
+        days: ["P", "W", "Ś", "C", "Pt"],
+        devices: [
+            {
+                id: "lampka_nocna",
+                mode: "off"
+            },
+            {
+                id: "glosnik",
+                mode: "off"
+            }
+        ]
+    };
+    var scena2 = {
+        type: "day_and_hour",
+        name: "Impreza",
+        timeStart: "20:00",
+        timeEnd: "23:00",
+        days: ["Pt"],
+        devices: [
+            {
+                id: "oswietlenie",
+                mode: "on"
+            },
+            {
+                id: "glosnik",
+                mode: "on"
+            }
+        ]
+    };
+
+    var sceny = [scena1, scena2];
+
+    var devices = [];
 
     var count_device = 0;
     var sceny_names = ["Włącz światło w salonie", "Jestem w pracy"];
@@ -346,21 +389,169 @@
         var select = document.getElementById("akcesoria-select");
         var option_value = select.value;
         var device = document.getElementById(option_value);
-        if(device.style.display !== "block"){
+        if (device.style.display !== "block") {
             device.style.display = "block";
             count_device++;
         }
+
+        devices.push(option_value);
         button.disabled = false;
     }
 
-    function deleteDevice(device_id){
+    function deleteDevice(device_id) {
         var device = document.getElementById(device_id);
         device.style.display = "none";
         count_device--;
 
-        if(count_device === 0){
+        if (count_device === 0) {
             button.disabled = true;
         }
+
+        devices = devices.filter(function (item) {
+            return item !== device.id
+        });
+    }
+
+    function validateOption(deviceId, formId) {
+        var dzien_godzina = document.getElementById("dzien-godzina");
+        var recznie = document.getElementById("recznie");
+        var form = document.getElementsByName(formId);
+        var warning = document.getElementById(formId);
+
+        var checked_days = [];
+
+        var days = document.getElementsByName("datepicker");
+        for (let i = 0; i < days.length; i++) {
+            if (days[i].checked) {
+                checked_days.push(days[i].value);
+            }
+        }
+
+        if (recznie.checked) {
+            warning.style.display = "none";
+        }
+
+        if (dzien_godzina.checked) {
+            for (let i = 0; i < sceny.length; i++) {
+                if (sceny[i].type === "day_and_hour") {
+                    if (validateHours()) {
+                        if (validateDays().correct && containElement(sceny[i].days, checked_days)) {
+                            var timestart = document.getElementById("time").value;
+                            var timeend = document.getElementById("timeend").value;
+                            if (sceny[i].timeStart <= timestart && sceny[i].timeEnd >= timeend ||
+                                !(sceny[i].timeStart < timestart) && !(timeend < sceny[i].timeStart) ||
+                                !(sceny[i].timeEnd < timestart) && !(timeend < sceny[i].timeEnd)) {
+                                for (let id in sceny[i].devices) {
+                                    if (sceny[i].devices[id].id === deviceId) {
+                                        for (var j = 0; j < form.length; j++) {
+                                            if (form[i].checked) {
+                                                if (sceny[i].devices[id].mode !== form[j].value) {
+                                                    warning.innerText = `Zmień ustawienia, ponieważ w scenie o nazwie: ${sceny[i].name} to urządzenie jest - ${changeName(form[j].value)} w godzinach: ${sceny[i].timeStart} - ${sceny[i].timeEnd}`;
+                                                    warning.style.display = "block";
+                                                }
+                                            } else {
+                                                warning.style.display = "none";
+                                            }
+                                        }
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
+    function changeName(name) {
+        if (name === "on") {
+            return "wyłączone";
+        } else {
+            return "włączone";
+        }
+    }
+
+    function containElement(array = [], array_with_elements = []) {
+        for (let i = 0; i < array_with_elements.length; i++) {
+            if (array.includes(array_with_elements[i]))
+                return true
+        }
+        return false;
+    }
+
+
+    function validateHours() {
+        var warning2 = document.getElementById("warning2");
+        var time_start_correct = false;
+        var time_end_correct = false;
+
+        //jezeli wybrałem dzień i godzine sprawdz:
+        //czy ustawiono czas
+        var time = document.getElementById("time").value;
+        if (time === "") {
+            warning2.innerText = "Nie wybrano godziny rozpoczęcia sceny";
+            warning2.style.display = "block";
+            time_start_correct = false;
+        } else {
+            warning2.style.display = "none";
+            time_start_correct = true;
+        }
+
+        var warning22 = document.getElementById("warning22");
+        //jezeli wybrałem dzień i godzine sprawdz:
+        //czy ustawiono czas
+        var timeend = document.getElementById("timeend").value;
+        if (timeend === "") {
+            warning22.innerText = "Nie wybrano godziny zakończenia sceny";
+            warning22.style.display = "block";
+            time_end_correct = false;
+        } else {
+            warning22.style.display = "none";
+            time_end_correct = true;
+        }
+
+        //czy godzina rozpoczęcia jest mniejsza niż zakończenia
+        if (timeend < time) {
+            warning22.innerText = "Godzina zakończenia nie może być wcześniej niż godzina rozpoczęcia";
+            warning22.style.display = "block";
+            time_end_correct = false;
+        }
+
+        if (time_end_correct === true && time_start_correct === true) {
+            return true;
+        }
+    }
+
+    function validateDays() {
+        //jakie wybrano dni tygodnia
+        var count_checked_days = 0;
+        var checked_days = [];
+        var object = {
+            correct: false,
+            days: []
+        }
+
+        var days = document.getElementsByName("datepicker");
+        for (let i = 0; i < days.length; i++) {
+            if (days[i].checked) {
+                count_checked_days++;
+                checked_days.push(days[i].value);
+            }
+        }
+
+        //nie wybrano żadnego dnia
+        var warning3 = document.getElementById("warning3");
+        if (count_checked_days === 0) {
+            warning3.innerText = "Wybierz przynajniej jeden dzień";
+            warning3.style.display = "block";
+        } else {
+            object.correct = true;
+            object.days = checked_days;
+            warning3.style.display = "none";
+        }
+        return object;
     }
 
     function validate() {
@@ -371,10 +562,12 @@
 
         var name_correct = false;
         var day_correct = false;
-        var time_correct = false;
+
+        var time_correct = validateHours();
 
         var name = document.getElementById("name");
         var dzien_godzina = document.getElementById("dzien-godzina");
+        var recznie = document.getElementById("recznie");
         var warning = document.getElementById("warning1");
 
         var name_value = name.value;
@@ -392,28 +585,20 @@
             if (name_value.length < max_name) {
                 warning.style.display = "none";
                 name_correct = true;
-            }
-            else{
-                warning.innerText = "Nazwa jest za długa, maksymalna ilość znaków to: " + max_name ;
+            } else {
+                warning.innerText = "Nazwa jest za długa, maksymalna ilość znaków to: " + max_name;
                 warning.style.display = "block";
 
             }
         }
 
-        var warning2 = document.getElementById("warning2");
-        if (dzien_godzina.checked) {
-            //jezeli wybrałem dzień i godzine sprawdz:
-            //czy ustawiono czas
-            var time = document.getElementById("time").value;
-            if (time === "") {
-                warning2.innerText = "Nie wybrano godziny rozpoczęcia sceny";
-                warning2.style.display = "block";
-                time_correct = false;
-            } else {
-                warning2.style.display = "none";
-                time_correct = true;
-            }
+        if (recznie.checked === true && name_correct === true) {
+            new_scene.type = "recznie";
+            new_scene.name = name_value;
+            sceny.push(new_scene);
+        }
 
+        if (dzien_godzina.checked) {
             //jakie wybrano dni tygodnia
             var days = document.getElementsByName("datepicker");
             for (let i = 0; i < days.length; i++) {
@@ -425,27 +610,36 @@
 
             //nie wybrano żadnego dnia
             var warning3 = document.getElementById("warning3");
-            if(count_checked_days === 0){
+            if (count_checked_days === 0) {
                 warning3.innerText = "Wybierz przynajniej jeden dzień";
                 warning3.style.display = "block";
                 day_correct = false;
-            }else{
+            } else {
                 day_correct = true;
                 warning3.style.display = "none";
             }
 
-            if(name_correct === true && day_correct === true && time_correct === true ){
-                new_scene.name = name_value;
-                new_scene.days = checked_days;
-            }
-        // else
-        //     {
-        //         location.href = 'searchResult.html';
-        //     }
-        }
 
-     //   console.log(new_scene);
+            if (name_correct === true && day_correct === true && time_correct === true) {
+                var time = document.getElementById("time").value;
+                var timeend = document.getElementById("timeend").value;
+                new_scene.type = "day_and_hour";
+                new_scene.name = name_value;
+                new_scene.timeStart = time;
+                new_scene.timeEnd = timeend;
+                new_scene.days = checked_days;
+
+                sceny.push(new_scene);
+            }
+
+
+            // else
+            //     {
+            //         location.href = 'searchResult.html';
+            //     }
+        }
     }
+
 
 </script>
 
