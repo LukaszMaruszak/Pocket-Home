@@ -127,7 +127,7 @@
             <i class='far fa-lightbulb'></i>
             <form id="oswietlenie_form" class="radio" onchange="validateOption('oswietlenie', 'swiatlo')">
                 <label>
-                    <input  type="radio" name="swiatlo" value="on"> Włącz
+                    <input type="radio" name="swiatlo" value="on"> Włącz
                 </label>
                 <label>
                     <input type="radio" name="swiatlo" value="off"> Wyłącz
@@ -176,7 +176,6 @@
                         <label id="colorg" for="color7"></label>
                     </div>
                 </div>
-                <p class="warning">Wybierz jedno</p>
             </div>
 
         </div>
@@ -193,7 +192,7 @@
             <i class="fas fa-music"></i>
             <form class="radio" onchange="validateOption('glosnik', 'muza')">
                 <label>
-                    <input  type="radio" name="muza" value="on"> Włącz
+                    <input type="radio" name="muza" value="on"> Włącz
                 </label>
                 <label>
                     <input type="radio" name="muza" value="off"> Wyłącz
@@ -223,7 +222,7 @@
                     <option value="bifor">Bifor</option>
                 </select>
             </div>
-            <p class="warning">Nie wybrano playlisty do odtworzenia</p>
+            <p class="warning" id="warning-music">Nie wybrano playlisty do odtworzenia</p>
         </div>
     </div>
 
@@ -238,7 +237,7 @@
             <i class="fas fa-wind"></i>
             <form class="radio" onchange="validateOption('air_conditioning', 'klima')">
                 <label>
-                    <input  type="radio" name="klima" value="on"> Włącz
+                    <input type="radio" name="klima" value="on"> Włącz
                 </label>
                 <label>
                     <input type="radio" name="klima" value="off"> Wyłącz
@@ -280,7 +279,7 @@
 
         </div>
         <div style="clear:both;"></div>
-        <p class="warning">Wybierz jedno</p>
+        <p class="warning" id="warning-power">Wybierz moc urządzenia</p>
 
         <div class="color-header">
             <span>Tryb</span>
@@ -288,14 +287,13 @@
                 <option value="">Przeglądaj</option>
                 <option value="AUTO">AUTO</option>
                 <option value="chłodzenie">Chłodzenie</option>
-                <option value="wentylator">Wntylator</option>
+                <option value="wentylator">Wentylator</option>
                 <option value="suche">Osuszanie powietrza</option>
-                <option value="Ogrzewanie">ogrzewanie</option>
+                <option value="Ogrzewanie">Ogrzewanie</option>
                 <option value="eco">ECO</option>
             </select>
         </div>
-        <p class="warning">Nie wybrano trybu pracy</p>
-
+        <p class="warning" id="warning_air_conditioning">Nie wybrano trybu pracy</p>
 
     </div>
 
@@ -349,6 +347,7 @@
         ]
     };
 
+
     var sceny = [scena1, scena2];
 
     var devices = [];
@@ -389,12 +388,13 @@
         var select = document.getElementById("akcesoria-select");
         var option_value = select.value;
         var device = document.getElementById(option_value);
-        if (device.style.display !== "block") {
+        const style = getComputedStyle(device);
+        if (style.display === "none") {
             device.style.display = "block";
             count_device++;
+            devices.push(option_value);
         }
 
-        devices.push(option_value);
         button.disabled = false;
     }
 
@@ -412,7 +412,100 @@
         });
     }
 
+    function validatePlaylist() {
+        const style = getComputedStyle(document.getElementById("glosnik"));
+        var select = document.getElementById("playlist-select");
+        var warning = document.getElementById("warning-music");
+
+        var option_value = select.value;
+
+        if (style.display === "block") {
+            if (option_value === "") {
+                warning.style.display = "block";
+                return false;
+            } else {
+                warning.style.display = "none";
+                return true;
+            }
+        }
+    }
+
+    function validate_air_conditioning() {
+        const style = getComputedStyle(document.getElementById("air_conditioning"));
+        var select = document.getElementById("type-select");
+        var warning = document.getElementById("warning_air_conditioning");
+
+        var option_value = select.value;
+
+        let temp1 = false;
+        let temp2 = false;
+
+        if (style.display === "block") {
+            if (option_value === "") {
+                warning.style.display = "block";
+                temp1 = false;
+            } else {
+                warning.style.display = "none";
+                temp1 = true;
+            }
+
+
+            let moc_counter = 0;
+
+            var moc = document.getElementsByName("moc");
+            for (let i = 0; i < moc.length; i++) {
+                if (moc[i].checked) {
+                    moc_counter++;
+                }
+            }
+
+            var warning_power = document.getElementById("warning-power");
+            if (moc_counter === 0) {
+                warning_power.style.display = "block";
+                temp2 = false
+            } else {
+                warning_power.style.display = "none";
+                temp2 = false;
+            }
+        }
+        return temp1 && temp2;
+    }
+
+    var deviceId = [
+        {id: "lampka_nocna", formid: "lampka"},
+        {id: "oswietlenie", formid: "swiatlo"},
+        {id: "glosnik", formid: "muza"},
+        {id: "air_conditioning", formid: "klima"},
+        //{id: "tv", formid: ""}!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11
+    ];
+
+    function validateOnOffOption() {
+        let temp = 0;
+        let countDevice = 0;
+        for (let elements = 0; elements < deviceId.length; elements++) {
+
+            let style = getComputedStyle(document.getElementById(deviceId[elements].id));
+
+            if (style.display === "block") {
+                countDevice++;
+                var form = document.getElementsByName(deviceId[elements].formid);
+                var warning = document.getElementById(deviceId[elements].formid);
+
+                if (!form[0].checked && !form[1].checked) {
+                    warning.innerText = "Określ stan";
+                    warning.style.display = "block";
+                } else {
+                    temp++;
+                }
+            }
+        }
+        return temp === countDevice;
+    }
+
+    let errors = [];
+
     function validateOption(deviceId, formId) {
+
         var dzien_godzina = document.getElementById("dzien-godzina");
         var recznie = document.getElementById("recznie");
         var form = document.getElementsByName(formId);
@@ -448,12 +541,12 @@
                                                 if (sceny[i].devices[id].mode !== form[j].value) {
                                                     warning.innerText = `Zmień ustawienia, ponieważ w scenie o nazwie: ${sceny[i].name} to urządzenie jest - ${changeName(form[j].value)} w godzinach: ${sceny[i].timeStart} - ${sceny[i].timeEnd}`;
                                                     warning.style.display = "block";
+
                                                 }
                                             } else {
                                                 warning.style.display = "none";
                                             }
                                         }
-
                                     }
                                 }
                             }
@@ -462,8 +555,8 @@
                 }
             }
         }
-
     }
+
 
     function changeName(name) {
         if (name === "on") {
@@ -554,6 +647,19 @@
         return object;
     }
 
+    function validateAllwarnings() {
+
+        let d = document.getElementsByClassName("warning");
+        for (let i = 0; i < d.length; i++) {
+            let style = getComputedStyle(d[i])
+            if (style.display === "block") {
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
+
     function validate() {
         var new_scene = {};
         var count_checked_days = 0;
@@ -573,31 +679,39 @@
         var name_value = name.value;
         const max_name = 10;
 
-        if (sceny_names.includes(name_value)) {
-            warning.innerText = "Scena o takiej nazwie już istnieje zmień nazwę";
-            warning.style.display = "block";
-            name_correct = false;
-        } else if (name_value === "") {
-            warning.innerText = "Nie została podana nazwa sceny";
-            warning.style.display = "block";
-            name_correct = false;
-        } else {
-            if (name_value.length < max_name) {
-                warning.style.display = "none";
-                name_correct = true;
-            } else {
-                warning.innerText = "Nazwa jest za długa, maksymalna ilość znaków to: " + max_name;
+        for (let scena in sceny) {
+            if (sceny[scena].name === name_value) {
+                warning.innerText = "Scena o takiej nazwie już istnieje zmień nazwę";
                 warning.style.display = "block";
-
+                name_correct = false;
+            } else if (name_value === "") {
+                warning.innerText = "Nie została podana nazwa sceny";
+                warning.style.display = "block";
+                name_correct = false;
+            } else {
+                if (name_value.length < max_name) {
+                    warning.style.display = "none";
+                    name_correct = true;
+                } else {
+                    warning.innerText = "Nazwa jest za długa, maksymalna ilość znaków to: " + max_name;
+                    warning.style.display = "block";
+                }
             }
         }
 
-        if (recznie.checked === true && name_correct === true) {
-            new_scene.type = "recznie";
-            new_scene.name = name_value;
-            sceny.push(new_scene);
-        }
+        if (recznie.checked) {
+            validatePlaylist();
+            validate_air_conditioning();
+            let option = validateOnOffOption();
+            let warnings = validateAllwarnings();
 
+            if (name_correct === true && warnings === true && option === true) {
+                new_scene.type = "recznie";
+                new_scene.name = name_value;
+                sceny.push(new_scene);
+                console.log("gotowe można działa")
+            }
+        }
         if (dzien_godzina.checked) {
             //jakie wybrano dni tygodnia
             var days = document.getElementsByName("datepicker");
@@ -619,8 +733,13 @@
                 warning3.style.display = "none";
             }
 
+            validatePlaylist();
+            validate_air_conditioning();
+            let option = validateOnOffOption();
+            let warnings = validateAllwarnings();
 
-            if (name_correct === true && day_correct === true && time_correct === true) {
+            if (name_correct === true && day_correct === true && time_correct === true && warnings === true &&
+            option === true) {
                 var time = document.getElementById("time").value;
                 var timeend = document.getElementById("timeend").value;
                 new_scene.type = "day_and_hour";
@@ -630,6 +749,7 @@
                 new_scene.days = checked_days;
 
                 sceny.push(new_scene);
+                console.log("gotowe można działa")
             }
 
 
@@ -638,6 +758,10 @@
             //         location.href = 'searchResult.html';
             //     }
         }
+        //validatePlaylist();
+        //validate_air_conditioning();
+
+        //validateAllwarnings();
     }
 
 
