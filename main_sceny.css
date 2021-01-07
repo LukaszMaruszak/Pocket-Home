@@ -71,7 +71,6 @@ input[type=radio] {
     cursor: pointer;
 }
 
-
 .buttons {
     float: right;
     margin-top: 30px;
@@ -108,6 +107,7 @@ input[type=radio] {
 #dzien-godzina-more{
     display: none;
 }
+
 /* styl ikonek do wybrania dnia tygodnia*/
 .dowPicker {
     margin-top: 40px;

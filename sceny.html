@@ -30,7 +30,7 @@
 
     <h1>Warunek</h1>
     <p>Określ sposób uruchomienia sceny</p>
-    <div class="warunek">
+    <div class="warunek" id="warunek">
         <label>
             <input type="radio" id="recznie" name="warunek" value="recznie" checked onclick="ShowHideDiv()"> Uruchom
             ręcznie
@@ -502,7 +502,6 @@
         return temp === countDevice;
     }
 
-    let errors = [];
 
     function validateOption(deviceId, formId) {
 
@@ -510,6 +509,7 @@
         var recznie = document.getElementById("recznie");
         var form = document.getElementsByName(formId);
         var warning = document.getElementById(formId);
+        warning.style.display = "none";
 
         var checked_days = [];
 
@@ -539,9 +539,8 @@
                                         for (var j = 0; j < form.length; j++) {
                                             if (form[i].checked) {
                                                 if (sceny[i].devices[id].mode !== form[j].value) {
-                                                    warning.innerText = `Zmień ustawienia, ponieważ w scenie o nazwie: ${sceny[i].name} to urządzenie jest - ${changeName(form[j].value)} w godzinach: ${sceny[i].timeStart} - ${sceny[i].timeEnd}`;
+                                                    warning.innerText = `Zmień ustawienia, ponieważ w scenie o nazwie: "${sceny[i].name}" to urządzenie jest - ${changeName(form[j].value)} w godzinach: ${sceny[i].timeStart} - ${sceny[i].timeEnd}`;
                                                     warning.style.display = "block";
-
                                                 }
                                             } else {
                                                 warning.style.display = "none";
@@ -654,11 +653,20 @@
             let style = getComputedStyle(d[i])
             if (style.display === "block") {
                 return false;
-            } else {
-                return true;
             }
         }
+        return true;
     }
+
+    document.getElementById("recznie").addEventListener("click", function() {
+        var warning2 = document.getElementById("warning2");
+        warning2.style.display = "none";
+        var warning22 = document.getElementById("warning22");
+        warning22.style.display = "none";
+        var warning3 = document.getElementById("warning3");
+        warning3.style.display = "none";
+    });
+
 
     function validate() {
         var new_scene = {};
@@ -667,9 +675,6 @@
         var checked_days = [];
 
         var name_correct = false;
-        var day_correct = false;
-
-        var time_correct = validateHours();
 
         var name = document.getElementById("name");
         var dzien_godzina = document.getElementById("dzien-godzina");
@@ -700,6 +705,13 @@
         }
 
         if (recznie.checked) {
+            // var warning2 = document.getElementById("warning2");
+            // warning2.style.display = "none";
+            // var warning22 = document.getElementById("warning22");
+            // warning22.style.display = "none";
+            // var warning3 = document.getElementById("warning3");
+            // warning3.style.display = "none";
+
             validatePlaylist();
             validate_air_conditioning();
             let option = validateOnOffOption();
@@ -709,10 +721,14 @@
                 new_scene.type = "recznie";
                 new_scene.name = name_value;
                 sceny.push(new_scene);
-                console.log("gotowe można działa")
+                location.href = 'searchResult.html';
             }
         }
+
         if (dzien_godzina.checked) {
+
+            var time_correct = validateHours();
+            //var day_correct = validateDays();
             //jakie wybrano dni tygodnia
             var days = document.getElementsByName("datepicker");
             for (let i = 0; i < days.length; i++) {
@@ -739,7 +755,7 @@
             let warnings = validateAllwarnings();
 
             if (name_correct === true && day_correct === true && time_correct === true && warnings === true &&
-            option === true) {
+                option === true) {
                 var time = document.getElementById("time").value;
                 var timeend = document.getElementById("timeend").value;
                 new_scene.type = "day_and_hour";
@@ -749,14 +765,9 @@
                 new_scene.days = checked_days;
 
                 sceny.push(new_scene);
-                console.log("gotowe można działa")
+                location.href = 'searchResult.html';
             }
 
-
-            // else
-            //     {
-            //         location.href = 'searchResult.html';
-            //     }
         }
         //validatePlaylist();
         //validate_air_conditioning();
