@@ -1,1 +1,220 @@
+<!DOCTYPE html>
+<html>
 
+<head>
+    <title>Pocket Home</title>
+    <meta charset="UTF-8">
+    <meta name="author" content="Konrad Dudek and Łukasz Maruszak">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    <script src="skrypt.js"></script>
+</head>
+<link rel="stylesheet" href="style.css">
+
+<body>
+<!-- Header -->
+<div class="header">
+    <h1>Pocket Home</h1>
+    <p><i>Witaj w domu!</i></p>
+</div>
+
+<!-- Navigation Bar -->
+<div class="navbar">
+    <ul id="menu">
+        <li><a href="index.html" style="border: lightblue solid 3px;" title="Dodaj urządzenie">Dodaj urządzenie</a>
+        </li>
+        <li><a href="" title="Projekt numer 1">Grupuj</a></li>
+        <li onclick="deleteGroup()"><a  title="Projekt numer 1">Usuń Grupę</a></li>
+    </ul>
+</div>
+
+<div class="row">
+
+    <!--MAIN-->
+    <div id="devices" class="devices">
+
+
+        <div class="device">
+            <h2>Lampka Nocna</h2>
+            <i id='bulb' class='far fa-lightbulb'></i>
+
+            <!-- Rounded switch -->
+            <label class="switch">
+                <input type="checkbox">
+                <span class="slider round"></span>
+            </label>
+            <i id="more_button" class="fas fa-angle-double-right" onclick="openTab('settings1')"></i>
+
+            <!-- Menu z większą ilością opcji urządzenia (domyślnie ukryte) -->
+            <div class="device_more" id="settings1">
+                <!-- Zamykanie rozwinięcia -->
+                <i id="more_button" class='fas fa-angle-double-left' onclick="closeTab('settings1')"></i>
+                <!--Ustawienia-->
+                <input id="slider" type="range">
+            </div>
+        </div>
+
+        <div class="device">
+            <h2>Oświetlenie w łazience</h2>
+
+            <i class='far fa-lightbulb'></i>
+
+            <!-- Rounded switch -->
+            <label class="switch">
+                <input type="checkbox">
+                <span class="slider round"></span>
+            </label>
+            <i id="more_button" class="fas fa-angle-double-right" onclick="openTab('settings2')"></i>
+
+            <!-- Menu z większą ilością opcji urządzenia (domyślnie ukryte) -->
+            <div class="device_more" id="settings2">
+                <!-- Zamykanie rozwinięcia -->
+                <i id="more_button" class='fas fa-angle-double-left' onclick="closeTab('settings2')"></i>
+                <p>Tekst</p>
+            </div>
+        </div>
+
+        <div class="device">
+            <h2>TV w salonie</h2>
+
+            <!--Ikona TV-->
+            <i class='fas fa-tv'></i>
+
+            <!-- Rounded switch -->
+            <label class="switch">
+                <input type="checkbox">
+                <span class="slider round"></span>
+            </label>
+            <i id="more_button" class="fas fa-angle-double-right" onclick="openTab('settings3')"></i>
+
+            <!-- Menu z większą ilością opcji urządzenia (domyślnie ukryte) -->
+            <div class="device_more" id="settings3">
+                <!-- Zamykanie rozwinięcia -->
+                <i id="more_button" class='fas fa-angle-double-left' onclick="closeTab('settings3')"></i>
+                <p>Tekst</p>
+            </div>
+        </div>
+
+        <div class="device">
+            <h2>Kino domowe</h2>
+
+            <!--Ikony kina domowego-->
+            <i class='fas fa-play'></i>
+            <!-- Rounded switch -->
+            <label class="switch">
+                <input type="checkbox">
+                <span class="slider round"></span>
+            </label>
+            <i id="more_button" class="fas fa-angle-double-right" onclick="openTab('settings2')"></i>
+
+            <!-- Menu z większą ilością opcji urządzenia (domyślnie ukryte) -->
+            <div class="device_more" id="settings2">
+                <!-- Zamykanie rozwinięcia -->
+                <i id="more_button" class='fas fa-angle-double-left' onclick="closeTab('settings2')"></i>
+                <p>Tekst</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!--Sidebar-->
+    <div class="sidebar">
+        <!--Sceny-->
+        <div class="sceny">
+            <fieldset>
+                <legend>Sceny</legend>
+                <div class="sceny_in" id="sceny_in">
+
+                    <div class="scena" id="scena1">
+                        <div id="inside">
+                        <h2>Spotkanie z przyjaciółmi</h2>
+                        <div class="icon">
+                            <i class="far fa-edit"></i>
+                            <i class="far fa-trash-alt" onclick="deleteDevice('scena1')"></i>
+                        </div>
+                        <div class="toggle">
+                            <label class="switch">
+                                <input type="checkbox">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                        <div style="clear:both;"></div>
+                        </div>
+                    </div>
+
+                    <div class="scena" id="scena2">
+                        <h2>Jestem w pracy</h2>
+                        <div class="icon">
+                            <i class="far fa-edit"></i>
+                            <i class="far fa-trash-alt" onclick="deleteDevice('scena2')"></i>
+                        </div>
+                        <div class="days">
+                            <h3>P T Ś C P S N  08:00 - 16:00</h3>
+                        </div>
+
+                    </div>
+                    <h2 id="brak_scen">Brak dodanych scen</h2>
+                    <button class="dodaj" type="button">Dodaj scenę</button>
+                    <div style="clear:both;"></div>
+                </div>
+            </fieldset>
+        </div>
+        <!--Domownicy-->
+        <div class="domownicy">
+            <fieldset>
+                <legend>Domownicy</legend>
+                <div class="domownicy_in">
+
+                    <div class="dom" id="dom1">
+                    <img id="domownik1" class="domownik">
+                        <figcaption>Jan</figcaption>
+                        <div onclick="usunDomownika('dom1')" class="overlay">
+                            <div class="text">Usuń</div>
+                        </div>
+                    </div>
+
+                    <div class="dom" id="dom2">
+                        <img id="domownik2" class="domownik">
+                        <figcaption></figcaption>
+                        <div onclick="usunDomownika('dom2')" class="overlay">
+                            <div class="text">Usuń</div>
+                        </div>
+                    </div>
+
+                    <div class="dom" id="dom3">
+                        <img id="domownik3" class="domownik">
+                        <figcaption></figcaption>
+                        <div onclick="usunDomownika('dom3')" class="overlay">
+                            <div class="text">Usuń</div>
+                        </div>
+                    </div>
+
+                    <div class="dom" id="dom4">
+                        <img id="domownik4" class="domownik">
+                        <figcaption></figcaption>
+                        <div onclick="usunDomownika('dom4')" class="overlay">
+                            <div class="text">Usuń</div>
+                        </div>
+                    </div>
+
+
+
+                    <i onclick="dodajDomownika()" class="fas fa-plus"></i>
+                    <div style="clear:both;"></div>
+                    <h2 id="brak_domowników">Brak dodanych domowników</h2>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+</div>
+
+
+<!-- Footer -->
+<div class="footer">
+    <span>Konrad Dudek and Łukasz Maruszak &copy 2021</span>
+</div>
+</div>
+
+</body>
+
+</html>
