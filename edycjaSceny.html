@@ -15,7 +15,7 @@
 <nav class="navigation-bar">
     <img class="logo" src="img/logo.png" alt="logo">
     <ul>
-        <li><a href="#">Sceny</a></li>
+        <li><a href="#">Edycja Sceny</a></li>
     </ul>
 </nav>
 <div style="clear:both;"></div>
@@ -303,7 +303,7 @@
 <div class="buttons">
     <button type="button" class="button button-cancel" onclick="location.href = 'index.html';">Anuluj
     </button>
-    <button type="button" id="add_button" class="button button-add" onclick="validate()">Dodaj scenę
+    <button type="button" id="add_button" class="button button-add" onclick="validate()">Zmień
     </button>
 </div>
 
@@ -818,8 +818,11 @@
                 new_scene.timeStart = time;
                 new_scene.timeEnd = timeend;
                 new_scene.days = checked_days;
+                console.log("devices godz");
+                console.log(devices);
                 new_scene.device = devices;
                 sceny.push(new_scene);
+                sessionStorage.removeItem("Edycja");
                 addToSessionStorage();
                 location.href = 'index.html';
             }
@@ -836,6 +839,41 @@
 
     window.onload = function () {
         readSessionStorage();
+
+        let data = JSON.parse(sessionStorage.getItem('Edycja'));
+        document.getElementById('name').value = data.name;
+
+        devices = data.device;
+
+        for(let i = 0; i < sceny.length; i++){
+            if(sceny[i].name === data.name){
+                sceny.splice(i, 1);
+            }
+        }
+
+        if (data.type === "day_and_hour") {
+            document.getElementById('dzien-godzina').checked = true;
+            document.getElementById("dzien-godzina-more").style.display = "block";
+            document.getElementById('time').value = data.timeStart;
+            document.getElementById('timeend').value = data.timeEnd;
+            for (let i = 0; i < 7; i++) {
+                for (let j = 0; j < 7; j++) {
+                    let checkbox = document.getElementById('dow' + (i + 1));
+                    if (checkbox.value === data.days[j]) {
+                        checkbox.checked = true;
+                    }
+                }
+            }
+        }
+        console.log("sdfsf")
+        console.log(data)
+        for(let k = 0; k < data.device.length; k++){
+            var device = document.getElementById(data.device[k]);
+            device.style.display = "block";
+        }
+        count_device = data.device.length;
+        sessionStorage.removeItem('Edycja')
+        button.disabled = false;
     };
 
 </script>

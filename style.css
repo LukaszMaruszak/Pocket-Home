@@ -1,0 +1,449 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial;
+  margin: 0;
+}
+
+a {
+  transition: 0.7s;
+}
+
+h1 {
+  transition: 0.7s;
+}
+
+button {
+  transition: 0.7s;
+}
+
+.header {
+  height: 100%;
+  padding: 1%;
+  text-align: center;
+  color: white;
+  background-color: blue;
+  font-size: 100%;
+}
+
+.header h1 {
+  text-align: center;
+  text-shadow: black 3px 3px 10px;
+}
+
+.navbar {
+  display: flex;
+  background-color: #333;
+  font-size: 130%;
+  border-bottom: white 2px solid;
+}
+
+.sceny_in button:hover {
+  color: #2196F3;
+}
+
+.sceny_in .dodaj{
+  float: right;
+  font-size: 110%;
+}
+
+#menu {
+  padding: 20px;
+  margin: auto;
+}
+
+#menu li {
+  display: inline-flex;
+  padding-top: 3px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+}
+
+#menu a {
+  color: white;
+  border: 3px solid white;
+  padding: 10px;
+  text-align: center;
+}
+
+#menu a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.row {
+  height: auto;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+legend {
+  font-size: 180%;
+}
+
+.sidebar {
+  width: 40%;
+  flex: 40%;
+  background-color: #333;
+  margin: 0 auto;
+  border: 20px solid #333;
+}
+
+.sceny {
+  background-color: #333;
+  color: white;
+}
+
+.sceny_in {
+  margin-left: 2%;
+  top: 0;
+  position: sticky;
+}
+
+.domownicy {
+  background-color: #333;
+  color: white;
+}
+
+.domownicy_in {
+  margin-left: 2%;
+  top: 0;
+ position: sticky;
+}
+
+.devices {
+  overflow-y: scroll;
+  max-height: 64vh;
+  display: flex;
+  flex-wrap: wrap;
+  flex: 60%;
+  background-color: lightgray;
+}
+
+.devices .far {
+  font-size: 310%;
+}
+
+.devices .fas {
+  font-size: 300%;
+}
+
+.device {
+  position: relative;
+  margin: 1%;
+  padding: 2%;
+  border: 2px #333 solid;
+}
+
+.device h2 {
+  text-align: center;
+}
+
+.device #more_button:hover {
+  transition: 0.5s;
+  color: blue;
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+.device #more_button {
+  position: absolute;
+  bottom: 1.5%;
+  right: 0.5%;
+  font-size: 36px;
+}
+
+.device_more {
+  display: none;
+  transition: 2s;
+}
+
+.device_more #slider {
+  align-items: center;
+}
+
+#kontakt_list ul {
+  display: inline-flex;
+}
+
+#kontakt_list li {
+  list-style-type: none;
+  display: flex;
+  align-items: center;
+}
+
+#kontakt_list img:hover {
+  width: 25%;
+}
+
+#kontakt_list img {
+  width: 20%;
+  transition: 0.7s;
+}
+
+#kontakt_list figure {
+  text-align: center;
+}
+
+.footer {
+  padding: 20px;
+  background-color: #333;
+  text-align: center;
+  font-style: italic;
+  color: white;
+  border-top: white 2px solid;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 15px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: blue;
+  border-radius: 10px;
+  border: darkblue solid 2px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: darkblue;
+}
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  display: none;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: gray;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked+.slider {
+  /*background-color: #2196F3;*/
+  background-color: green;
+}
+
+input:focus+.slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked+.slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+@media only screen and (max-width: 768px) {
+  .row {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    flex: 100%;
+  }
+}
+
+/*style sceny*/
+.scena {
+  height: 160px;
+  color: black;
+  background: whitesmoke;
+  padding: 5px 0 20px 10px;
+  border:1px solid black;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+
+.scena .far {
+  font-size: 32px;
+  cursor: pointer;
+}
+
+.scena .icon {
+  width: 100%;
+}
+.scena .toggle {
+  float: right;
+  margin-top: 8px;
+  margin-right: 20px;
+}
+
+.scena .toggle {
+  float: right;
+  margin-top: 8px;
+  margin-right: 20px;
+}
+
+.scena .days {
+  margin-top: 18px;
+  margin-right: 20px;
+}
+
+.delete_buttons {
+  text-align: center;
+
+}
+
+.delete_buttons button {
+  font-size: 18px;
+  padding: 5px 10px;
+  margin-right: 20px;
+}
+
+
+#domownik1 {
+  background-image: url("images/boy.png");
+  width: 100px;
+  height: 100px;
+  background-size: cover;
+  background-position: top center;
+  background-color: whitesmoke;
+
+  border-radius: 50%;
+}
+
+#domownik2{
+  background-image: url("images/designer.png");
+  width: 100px;
+  height: 100px;
+  background-size: cover;
+  background-position: top center;
+  background-color: whitesmoke;
+
+  border-radius: 50%;
+}
+
+#domownik3{
+  background-image: url("images/man.png");
+  width: 100px;
+  height: 100px;
+  background-size: cover;
+  background-position: top center;
+  background-color: whitesmoke;
+
+  border-radius: 50%;
+}
+
+#domownik4{
+  background-image: url("images/woman.png");
+  width: 100px;
+  height: 100px;
+  background-size: cover;
+  background-position: top center;
+  background-color: whitesmoke;
+
+  border-radius: 50%;
+}
+figcaption {
+  text-align: center;
+  width: 100px;
+  padding: 0;
+  margin: 0;
+}
+#dom1 {
+  display: block;
+}
+.dom{
+  display: none;
+  position: relative;
+  width: 100px;
+  margin-right: 8px;
+  float: left;
+}
+
+.domownicy .fa-plus {
+  font-size: 40px;
+  cursor: pointer;
+  line-height: 100px;
+  margin-left: 10px;
+}
+
+.overlay {
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+  width: 100px;
+  opacity: 0;
+  transition: .5s ease;
+  background-color: #62a4c6;
+  cursor: pointer;
+}
+
+.dom:hover .overlay {
+  opacity: 1;
+}
+
+.text {
+  color: #000000;
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+#brak_domownikow{
+  display: none;
+}
+
+.scena-dziala{
+  border:5px solid #42ea00;
+  color: #42ea00;
+}
