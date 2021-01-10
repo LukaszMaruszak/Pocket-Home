@@ -339,7 +339,7 @@
     // }
 
     var scena1 = {
-        type: "recznie",
+        type: "day_and_hour",
         name: "Jestem w pracy",
         timeStart: "08:00",
         timeEnd: "16:00",
@@ -357,7 +357,7 @@
         device: ['oswietlenie', 'glosnik']
     };
     var scena2 = {
-        type: "day_and_hour",
+        type: "recznie",
         name: "Impreza",
         timeStart: "20:00",
         timeEnd: "23:00",
@@ -940,6 +940,72 @@
     </div>`;
     }
 
+    function oswietlenie(name){
+        let formid = name + '-warning';
+        return ` <div class="device" id="${name}">
+        <div>
+            <h2>${name}
+                <i class='far fa-trash-alt' onclick="deleteDevice('${name}')"></i>
+            </h2>
+        </div>
+        <div class="option">
+            <i class='far fa-lightbulb'></i>
+            <form  class="radio" onchange="validateOption('oswietlenie', '${formid}')">
+                <label>
+                    <input class="radiobutton" type="radio" name="${formid}" value="on"> Włącz
+                </label>
+                <label>
+                    <input class="radiobutton" type="radio" name="${formid}" value="off"> Wyłącz
+                </label>
+            </form>
+            <p class="warning" id="${formid}"></p>
+
+            <div>
+                <p>Intensywność światła</p>
+                <span>10%</span>
+                <input type="range" id="intensity" name="intensity"
+                       min="10" max="100">
+                <span>100%</span>
+            </div>
+
+            <div class="color-header">
+                <p>Kolor światła</p>
+
+                <div class="colorPicker">
+                    <div class="colorPickerOption">
+                        <input type="radio" id="color1" name="color" checked>
+                        <label id="colora" for="color1"></label>
+                    </div>
+                    <div class="colorPickerOption">
+                        <input type="radio" id="color2" name="color">
+                        <label id="colorb" for="color2"></label>
+                    </div>
+                    <div class="colorPickerOption">
+                        <input type="radio" id="color3" name="color">
+                        <label id="colorc" for="color3"></label>
+                    </div>
+                    <div class="colorPickerOption">
+                        <input type="radio" id="color4" name="color">
+                        <label id="colord" for="color4"></label>
+                    </div>
+                    <div class="colorPickerOption">
+                        <input type="radio" id="color5" name="color">
+                        <label id="colore" for="color5"></label>
+                    </div>
+                    <div class="colorPickerOption">
+                        <input type="radio" id="color6" name="color">
+                        <label id="colorf" for="color6"></label>
+                    </div>
+                    <div class="colorPickerOption">
+                        <input type="radio" id="color7" name="color">
+                        <label id="colorg" for="color7"></label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>`
+    }
 
     function klimatyzacja(name) {
         let formid = name + '-warning';
@@ -1050,6 +1116,15 @@
                 console.log(box)
                 box.innerHTML += klimatyzacja(name);
                 console.log("dodano klima")
+                // let id = `#${name}-select`;
+                // console.log(id);
+                // $(id).dropdown();
+            }
+
+            if (code == 3333) {
+                console.log(box)
+                box.innerHTML += oswietlenie(name);
+                console.log("dodano oswietlenie")
                 // let id = `#${name}-select`;
                 // console.log(id);
                 // $(id).dropdown();

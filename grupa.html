@@ -39,6 +39,9 @@
     </select>
     <button type="button" class="button-add-device" onclick="addDevie()">Dodaj</button>
 
+    <div id="box">
+
+    </div>
 
     <div class="device" id="lampka_nocna">
         <div>
@@ -91,14 +94,12 @@
     </div>
 
 
-
-
 </div>
 
 <div class="buttons">
     <button type="button" class="button button-cancel" onclick="location.href = 'index.html';">Anuluj
     </button>
-    <button type="button" id="add_button" class="button button-add" onclick="validate()" >Dodaj Grupe
+    <button type="button" id="add_button" class="button button-add" onclick="validate()">Dodaj Grupe
     </button>
 </div>
 <script>
@@ -115,24 +116,24 @@
         var select = document.getElementById("akcesoria-select");
         var option_value = select.value;
         var device = document.getElementById(option_value);
-        if(device.style.display !== "block"){
+        if (device.style.display !== "block") {
             device.style.display = "block";
             count_device++;
         }
         button.disabled = false;
     }
 
-    function deleteDevice(device_id){
+    function deleteDevice(device_id) {
         var device = document.getElementById(device_id);
         device.style.display = "none";
         count_device--;
 
-        if(count_device === 0){
+        if (count_device === 0) {
             button.disabled = true;
         }
     }
 
-    function validate(){
+    function validate() {
         var name = document.getElementById("name");
         var name_value = name.value;
         var warning = document.getElementById("warning1");
@@ -140,28 +141,25 @@
         var name_correct = false;
         const max_name = 10;
 
-        if(group_names.includes(name_value)) {
+        if (group_names.includes(name_value)) {
             warning.innerText = "Grupa o takiej nazwie już istnieje zmień nazwę";
             warning.style.display = "block";
             name_correct = false;
-        }
-        else if(name_value === "") {
+        } else if (name_value === "") {
             warning.innerText = "Nie została podana nazwa grupy";
             warning.style.display = "block";
             name_correct = false;
-        }
-        else {
+        } else {
             if (name_value.length < max_name) {
                 warning.style.display = "none";
                 name_correct = true;
-            }
-            else{
-                warning.innerText = "Nazwa jest za długa, maksymalna ilość znaków to: " + max_name ;
+            } else {
+                warning.innerText = "Nazwa jest za długa, maksymalna ilość znaków to: " + max_name;
                 warning.style.display = "block";
                 name_correct = false;
             }
         }
-        if( name_correct === true ){
+        if (name_correct === true) {
 
             sessionStorage.setItem('Grupa', name_value);
 
@@ -170,8 +168,76 @@
 
     }
 
+    function klimatyzacja(id) {
+        return `<div class="device" id="${id}">
+            <div>
 
-    functin
+                <h2>${id}
+                    <i class='far fa-trash-alt' onClick="deleteDevice('${id}')"></i>
+                </h2>
+                <i class='fas fa-wind'></i>
+            </div>
+        </div>`
+    }
+
+    function lampka(id) {
+        return `<div class="device" id="${id}">
+        <div>
+
+            <h2>${id}
+                <i class='far fa-trash-alt' onclick="deleteDevice('${id}')"></i>
+            </h2>
+            <i class='far fa-lightbulb'></i>
+        </div>
+    </div>`
+    }
+
+
+    function updateSelect() {
+
+        let data;
+        let box = document.getElementById('box');
+
+        if (sessionStorage.getItem('AllDevices') == null) {
+            console.log("select pusty");
+            //console.log(data);
+        } else {
+            data = JSON.parse(sessionStorage.getItem('AllDevices'));
+            console.log("select pełny");
+            //console.log(data);
+        }
+
+        for (let device in data) {
+            let name = data[device].name;
+            let code = data[device].code;
+
+
+            if (code == 1111) {
+                console.log(box)
+                box.innerHTML += lampka(name);
+                console.log("dodano");
+                console.log(box)
+            }
+            if (code == 2222) {
+                console.log(box)
+                box.innerHTML += klimatyzacja(name);
+                console.log("dodano klima")
+                // let id = `#${name}-select`;
+                // console.log(id);
+                // $(id).dropdown();
+            }
+
+            let id_select = `akcesoria-select`;
+            let x = document.getElementById(id_select);
+            let option = document.createElement("option");
+            option.text = name;
+            option.value = name;
+            x.add(option);
+        }
+
+    }
+
+    window.onload = updateSelect();
 
 </script>
 </body>

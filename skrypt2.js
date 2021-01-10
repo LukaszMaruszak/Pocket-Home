@@ -374,7 +374,7 @@ $(document).ready(function(){
 //-------------------------
 
 var scena1 = {
-    type: "recznie",
+    type: "day_and_hour",
     name: "Jestem w pracy",
     timeStart: "08:00",
     timeEnd: "16:00",
@@ -392,7 +392,7 @@ var scena1 = {
     device: ['oswietlenie', 'glosnik']
 };
 var scena2 = {
-    type: "day_and_hour",
+    type: "recznie",
     name: "Impreza",
     timeStart: "20:00",
     timeEnd: "23:00",

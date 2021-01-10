@@ -514,15 +514,17 @@ function deleteDevice(id, title) {
 function deleteGroup() {
     var group = prompt("Podaj nazwę grupy do usunięcia");
     let name = sessionStorage.getItem("Grupa");
-
+	console.log(group)
     if (group == null || group === "") {
-        console.log("Nie podano nazwy grupy")
-		//alert("Podaj nazwę grupy");
+        //console.log("Nie podano nazwy grupy");
+		confirm("Nie podano nazwy grupy.");
     } else if(group === name){
 		if (confirm("Czy chcesz usunąć grupe?")) {
 			console.log("usunięto grupe")
 			location.href = 'index.html';
 		}
+	}else{
+		confirm("Grupa o takiej nazwie nie istnieje.");
 	}
 }
 
