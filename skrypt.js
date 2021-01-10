@@ -1,294 +1,153 @@
+class Device{
+	constructor(name, code){
+		this.name = name;
+		this.code = code;
+	}
+
+	getName(){
+		return this.name;
+	}
+
+	getCode(){
+		return this.code;
+	}
+}
+
+var d1 = new Device("Lamp", '1111');
+var d2 = new Device("Pamp", '1111');
+
+class Helper{
+	constructor(){
+		self.devices = [d1, d2];
+		self.codes = ['1111', '2222', '3333'];
+		self.names = new Array();
+	}
+
+	printDevices(){
+		for (var i in self.devices){
+			console.log(i + ": " + self.devices[i].getName());
+		}
+	}
+
+	getDevices(){
+		return self.devices;
+	}
+
+	addDevice(name, code){
+		document.getElementById('device_name').style.borderColor = 'gray';
+		document.getElementById('name_valid').innerHTML = "";
+		document.getElementById('device_code').style.borderColor = 'gray';
+		document.getElementById('code_valid').innerHTML = "";
+
+		console.log("Adding device");
+		if (name.length > 5){
+			console.log("Too long name");
+			document.getElementById('name_valid').innerHTML = "Nazwa może mieć tylko 5 znaków";
+			document.getElementById('device_name').style.borderColor = 'red';
+		}
+		if (name.length == 0){
+			console.log("Enter name!");
+			document.getElementById('name_valid').innerHTML = "Musisz podać nazwę";
+			document.getElementById('device_name').style.borderColor = 'red';
+		}
+		if (!(self.codes.includes(code))){
+			console.log("Includes:" + self.codes.includes(code, 0));
+			console.log("Invalid code");
+			document.getElementById('code_valid').innerHTML = "Niepoprawny kod!";
+			document.getElementById('device_code').style.borderColor = 'red';
+		}
+		if (self.names.includes(name)){
+			console.log("Includes:" + self.names.includes(name));
+			console.log("Name repeated");
+			document.getElementById('name_valid').innerHTML = "taka nazwa już istnieje!";
+			document.getElementById('device_name').style.borderColor = 'red';
+		}
+		else{
+			var d = new Device(name, code);
+			self.devices.push(d);
+			self.names.push(name);
+			this.addDevice2(name, code);
+		}
+	}
+
+	addDevice2(name, code){
+			if(code == '1111'){
+				document.getElementById('devices').innerHTML += '<div class="device">'	+		
+				'<h2>'+ name +'</h2>' +
+				'<label class="switch">' + 
+				'<input type="checkbox">' +
+				'<span class="slider round"></span>' +
+				'</label>'+
+						'<i id="more_button" class="fas fa-angle-double-right" onclick="openTab(' + "'settings1'" +')' + '"></i>'+
+		
+						'<div class="device_more" id="settings1">'+
+							'<i id="less_button" class=' + 'fas fa-angle-double-left' + 'onclick="closeTab(' + "'settings1'" + ')' + '"></i>'+
+							'<div class="slider_container">'+
+								'<i id=' + 'sun' + 'class=' + 'fas fa-sun' + '></i>'+
+								'<label for="myRange"> Intensywność światła</label>'+
+								'<input type="range" min="0" max="100" value="50" class="slider_x" id="myRange" oninput="this.nextElementSibling.value=this.value">'+
+								'<output>50</output>'+
+								'<br>'+
+							'</div>'+
+		
+							'<div class="color_container">'+
+								'<label for="color_input"> Kolor Światła: </label>'+
+								'<input type="color" id="color_input" name="head">'+
+							'</div>'+
+						'</div>'+
+		
+			+'</div>';	
+			}
+		}
+
+	refreshDevices(){
+		console.log("Refreshing...");
+		console.log("Devices length: " + self.devices.length);
+		for (var i in self.devices){
+			this.addDevice2(self.devices[i].getName(), self.devices[i].getCode());
+		}
+	}
+}
+var helper = new Helper();
+sessionStorage.setItem('AllDevices', helper.getDevices());
+helper.printDevices();
+
+console.log(sessionStorage.getItem('AllDevices').length);
+console.log(sessionStorage.getItem('AllDevices'))
+
+
+var AllDevs = sessionStorage.getItem('AllDevices');
+console.log(AllDevs.length);
+for (var i in AllDevs){
+	console.log(i + ": " + AllDevs[i])
+}
+
+
+
 function openTab(tabName) {
-    document.getElementById(tabName).style.display = "block";
-    var p_width = document.getElementById("devices").offsetWidth;
-    document.getElementById(tabName).style.width += p_width / 2 + "px";
-    var p_height = document.getElementById("devices").offsetHeight;
-    document.getElementById(tabName).style.height += p_height / 2 + "px";
-    document.getElementById('more_button').style.display = "none";
-    document.getElementById('more_button').style.maxWidth = 'none';
+	document.getElementById(tabName).style.display = "block";
+	var p_width = document.getElementById("devices").offsetWidth;
+	document.getElementById(tabName).style.width = p_width/1.1 + "px";
+	var p_height = document.getElementById("devices").offsetHeight;
+	document.getElementById(tabName).style.height = p_height / 2 + "px";
+	document.getElementById('more_button').style.display = "none";
 }
 
 function closeTab(tabName) {
-    document.getElementById(tabName).style.display = "none";
-    document.getElementById('more_button').style.display = "block";
+	document.getElementById(tabName).style.width = "0px";
+	document.getElementById(tabName).style.height = "0px";
+	document.getElementById(tabName).style.display = "none";
+	document.getElementById('more_button').style.display = "block";
 }
-//-------------------------
+/*
+W jakich scenach jest dane urządzenie,
+Walidacja długości nazwy
+Wyszukiwanie urządzeń
+*/
 
-var scena1 = {
-    type: "recznie",
-    name: "Jestem w pracy",
-    timeStart: "08:00",
-    timeEnd: "16:00",
-    days: ["P", "W", "Ś", "C", "Pt"],
-    devices: [
-        {
-            id: "lampka_nocna",
-            mode: "off"
-        },
-        {
-            id: "glosnik",
-            mode: "off"
-        }
-    ],
-    device: ['oswietlenie', 'glosnik']
-};
-var scena2 = {
-    type: "day_and_hour",
-    name: "Impreza",
-    timeStart: "20:00",
-    timeEnd: "23:00",
-    days: ["Pt"],
-    devices: [
-        {
-            id: "oswietlenie",
-            mode: "on"
-        },
-        {
-            id: "glosnik",
-            mode: "on"
-        }
-    ],
-    device: ['oswietlenie', 'glosnik', 'lampka_nocna']
-};
-
-function wzorScenaManually(id, title){
-   return `<div class="scena" id="${id}">
-        <div id="inside">
-            <h2>${title}</h2>
-            <div class="icon">
-                <i class="far fa-edit" onclick="editScena('${title}')"></i>
-                <i class="far fa-trash-alt" onClick="deleteDevice('${id}', '${title}')"></i>
-            </div>
-            <div class="toggle">
-                <label class="switch">
-                    <input type="checkbox">
-                        <span class="slider round"></span>
-                </label>
-            </div>
-            <div style="clear:both;"></div>
-        </div>
-    </div>`
-}
-
-function wzorScenaAuto(id, title, daysandhours){
-   return `<div class="scena" id="${id}">
-        <h2>${title}</h2>
-        <div class="icon">
-            <i class="far fa-edit" onclick="editScena('${title}')"></i>
-            <i class="far fa-trash-alt" onClick="deleteDevice('${id}', '${title}')"></i>
-        </div>
-        <div class="days">
-            <h3>${daysandhours}</h3>
-        </div>`
-}
-
-
-var sceny = [scena1, scena2];
-
-let dodane_sceny = 2;
-
-function readSessionStorage() {
-    if (sessionStorage.getItem('Sceny') === null) {
-        console.log("Pusty plik w bazie");
-    } else {
-        var data = JSON.parse(sessionStorage.getItem('Sceny'));
-        console.log("Odczytano dane z bazy");
-        sceny = data;
-        dodane_sceny = sceny.length;
-    }
-}
-
-function addToSessionStorage() {
-    sessionStorage.setItem('Sceny', JSON.stringify(sceny));
-    document.location= 'sceny.html';
-}
-
-function updateSceny(){
-    let id_number = dodane_sceny;
-    console.log("update");
-   // console.log(sceny);
-    for(let i = 0; i < dodane_sceny; i++){
-        //console.log(sceny[i].type);
-        if(sceny[i].type === "recznie"){
-            let id = "scena" + id_number;
-            let title = sceny[i].name;
-            document.getElementById("sceny_in").insertAdjacentHTML('afterbegin' ,wzorScenaManually(id, title));
-            id_number--;
-        }
-        if(sceny[i].type === "day_and_hour"){
-            let id = "scena" + id_number;
-            let title = sceny[i].name;
-            let day = sceny[i].days.join(" ");
-            let hours = " " + sceny[i].timeStart + " - " + sceny[i].timeEnd;
-            document.getElementById("sceny_in").insertAdjacentHTML('afterbegin' ,  wzorScenaAuto(id, title, day + hours));
-            id_number--;
-        }
-    }
-}
-
-
-function sprawdz_ilosc_scen() {
-    if (dodane_sceny === 0) {
-        document.getElementById("brak_scen").style.display = "block";
-    } else {
-        document.getElementById("brak_scen").style.display = "none";
-    }
-}
-
-
-function deleteDevice(id, title) {
-    if (confirm("Czy chcesz usunąć scenę?")) {
-        dodane_sceny--;
-        let scena = document.getElementById(id);
-        for(let i = 0; i < sceny.length; i++){
-            if(sceny[i].name === title){
-                sceny.splice(i, 1);
-            }
-        }
-        scena.remove();
-        sprawdz_ilosc_scen();
-    } else {
-
-    }
-}
-
-function deleteGroup() {
-    var group = prompt("Podaj nazwę grupy do usunięcia");
-    if (group == null || group === "") {
-        console.log("Nie podano nazwy grupy")
-    } else {
-        if (confirm("Czy chcesz usunąć grupe?")) {
-            console.log("usunięto grupe")
-        }
-    }
-}
-
-let numer_domownika = 1;
-
-function sprawdz_ilosc_domownikow() {
-    if (numer_domownika <= 0) {
-        document.getElementById("brak_domownikow").style.display = "block";
-    } else {
-        document.getElementById("brak_domownikow").style.display = "none";
-    }
-}
-
-let domownicy = [2, 3, 4];
-
-function dodajDomownika() {
-
-    if (numer_domownika === 4) {
-        alert("Nie można dodać więcej domowników")
-    } else {
-
-    var imie = prompt("Podaj nazwę domownika, którego chcesz dodać");
-    if (imie == null || imie === "") {
-        console.log("Nie podano nazwy domownika")
-    } else {
-        // if (numer_domownika === 4) {
-        //     alert("Nie można dodać więcej domowników")
-        // } else {
-            if (imie.length > 11) {
-                alert("Nazwa domownika za długa")
-            } else {
-                console.log("dodano domownika")
-                numer_domownika++;
-                let n_id = domownicy.shift();
-                let id = "dom" + n_id;
-                document.getElementById(id).querySelector("figcaption").innerText = imie;
-                document.getElementById(id).style.display = "block";
-            }
-        }
-
-    }
-    sprawdz_ilosc_domownikow();
-}
-
-function usunDomownika(id) {
-    if (confirm("Czy chcesz usunąć domownika?")) {
-        document.getElementById(id).style.display = "none";
-        numer_domownika--;
-        id = id.slice(3, 4);
-        domownicy.push(parseInt(id));
-    }
-    sprawdz_ilosc_domownikow();
-}
-
-function editScena(title){
-    for(let i = 0; i < sceny.length; i++){
-        if(sceny[i].name === title){
-            sessionStorage.setItem('Edycja', JSON.stringify(sceny[i]));
-        }
-    }
-    document.location= 'edycjaSceny.html';
-}
-
-function updateSelectWithDevicesInSceny(){
-    let data;
-
-    if(sessionStorage.getItem('Sceny') == null){
-        data = sceny;
-        console.log("select pusty");
-        //console.log(data);
-    }else{
-        data = JSON.parse(sessionStorage.getItem('Sceny'));
-        console.log("select pełny");
-        //console.log(data);
-    }
-    console.log(data)
-
-    for (let scena in data) {
-       console.log(data[scena])
-        for(let device of data[scena].device) {
-
-            //id select to id_rzadzenia-select
-            let id_select = `${device}-select`
-            let x = document.getElementById(id_select);
-            let option = document.createElement("option");
-            option.text = data[scena].name;
-            x.add(option);
-        }
-    }
-}
-
-function animateWorkingScena(){
-    let data;
-    if(sessionStorage.getItem('Sceny') == null){
-        data = sceny;
-        console.log("select pusty");
-        //console.log(data);
-    }else{
-        data = JSON.parse(sessionStorage.getItem('Sceny'));
-        console.log("select pełny");
-        //console.log(data);
-    }
-
-    let array = [];
-
-    for (let scena in data) {
-        if(data[scena].type === "day_and_hour"){
-            array.push(data[scena]);
-        }
-    }
-
-    let id = "";
-
-    let h2 = document.getElementsByTagName("h2");
-    for(let i = 0; i < h2.length; i++) {
-        if(h2[i].innerText === array[length].name){
-            id = h2[i].parentNode.id;
-        }
-    }
-    id = `#${id}`
-    console.log(id)
-    setInterval(function(){$(id).toggleClass('scena-dziala')}, 30000);
-}
-
-window.onload = function () {
-    console.log("Refreshing data....");
-    readSessionStorage();
-    updateSceny();
-    sprawdz_ilosc_scen();
-    updateSelectWithDevicesInSceny();
-    animateWorkingScena();
-}
+/**
+ * Kody urządzeń
+ * 1111 - Żarówka
+ * 2222 - Klimatyzacja
+ * 3333 - 
+ */

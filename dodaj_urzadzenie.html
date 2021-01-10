@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Pocket Home</title>
+	<meta charset="UTF-8">
+	<meta name="author" content="Konrad Dudek and Łukasz Maruszak">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src='https://kit.fontawesome.com/a076d05399.js'></script>
+	<script src="skrypt2.js"></script>
+</head>
+<link rel="stylesheet" href="style.css">
+
+<body>
+	<!-- Header -->
+	<div class="header">
+		<img src="img/logo.png">
+		<p>Witaj w domu!</p>
+	</div>
+
+	<!-- Navigation Bar -->
+	<div class="navbar">
+		<ul id="menu">
+			<li><a href="index.html" title="Main"> Main</a></li>
+			<li><a href="dodaj_urzadzenie.html" title="Dodaj urządzenie" style="border-color: blue;">Dodaj urządzenie</a></li>
+			<li><a href="grupa.html" title="Projekt numer 1">Grupuj</a></li>
+		</ul>
+	</div>
+
+	<div class="row">
+
+		<!--MAIN-->
+		<div id="adding" class="adding">
+			<label>Nazwa urządzenia: </label>
+			<input type="text" id="device_name" name="device_name">
+			<p id='name_valid'></p>
+			<br>
+			<label>Kod urządzenia: </label>
+			<input type="text" id="device_code" name="device_code">
+			<p id='code_valid'></p>
+			<br>
+			<button onclick="addDevice(device_name.value, device_code.value)">Dodaj</button>
+
+			<div id="devices" class="devices">
+
+			</div>
+		</div>
+
+		<!--Sidebar-->
+		<div class="sidebar">
+			<!--Sceny-->
+			<div class="sceny">
+				<fieldset>
+					<legend>Sceny</legend>
+					<div class="sceny_in">
+						<h2>Brak dodanych scen</h2>
+						<button type="button">Dodaj scenę</button>
+					</div>
+				</fieldset>
+			</div>
+			<!--Domownicy-->
+			<div class="domownicy">
+				<fieldset>
+					<legend>Domownicy</legend>
+					<div class="domownicy_in">
+						<h2>Brak dodanych domowników</h2>
+						<button type="button">Dodaj domownika</button>
+					</div>
+				</fieldset>
+			</div>
+		</div>
+	</div>
+
+	<!-- Footer -->
+	<div class="footer">
+		<span>Konrad Dudek and Łukasz Maruszak &copy 2021</span>
+	</div>
+	</div>
+
+</body>
+
+</html>

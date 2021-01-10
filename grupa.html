@@ -96,14 +96,14 @@
 </div>
 
 <div class="buttons">
-    <button type="button" class="button button-cancel" onclick="location.href = 'searchResult.html';">Anuluj
+    <button type="button" class="button button-cancel" onclick="location.href = 'index.html';">Anuluj
     </button>
-    <button type="button" id="add_button" class="button button-add" onclick="validate()" >Dodaj scenę
+    <button type="button" id="add_button" class="button button-add" onclick="validate()" >Dodaj Grupe
     </button>
 </div>
 <script>
     var count_device = 0;
-    var group_names = ["Kuchnia", "Salon"];
+    var group_names = ["Kuchnia"];
 
     const button = document.getElementById('add_button')
     button.disabled = true;
@@ -162,7 +162,10 @@
             }
         }
         if( name_correct === true ){
-            location.href = 'searchResult.html';
+
+            sessionStorage.setItem('Grupa', name_value);
+
+            location.href = 'grupa_dodana.html';
         }
 
     }

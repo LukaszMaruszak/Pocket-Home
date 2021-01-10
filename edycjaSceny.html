@@ -96,6 +96,10 @@
 
     <button type="button" class="button-add-device" onclick="addDevie()">Dodaj</button>
 
+    <div id="box">
+
+    </div>
+
     <div class="device" id="lampka_nocna">
         <div>
             <h2>Lampka nocna
@@ -365,23 +369,23 @@
         uncheckRadio();
     }
 
-    function incrementValue() {
-        var value = document.getElementById("temp").firstChild.nodeValue;
+    function incrementValue(id) {
+        var value = document.getElementById(id).firstChild.nodeValue;
         value = value.split(" ");
         var new_value = parseInt(value[0]);
         new_value = isNaN(new_value) ? 0 : new_value;
         new_value++;
-        document.getElementById("temp").innerHTML = new_value + " " + value[1];
+        document.getElementById(id).innerHTML = new_value + " " + value[1];
         //document.getElementById('number').value = value;
     }
 
-    function decrementValue() {
-        var value = document.getElementById("temp").firstChild.nodeValue;
+    function decrementValue(id) {
+        var value = document.getElementById(id).firstChild.nodeValue;
         value = value.split(" ");
         var new_value = parseInt(value[0]);
         new_value = isNaN(new_value) ? 0 : new_value;
         new_value--;
-        document.getElementById("temp").innerHTML = new_value + " " + value[1];
+        document.getElementById(id).innerHTML = new_value + " " + value[1];
         //document.getElementById('number').value = value;
     }
 
@@ -391,7 +395,6 @@
             //sessionStorage.setItem('Sceny', '[]');
         } else {
             var data = JSON.parse(sessionStorage.getItem('Sceny'));
-            console.log(data)
             sceny = data;
             console.log(sceny);
         }
@@ -486,6 +489,64 @@
                 temp2 = false;
             }
         }
+        if (sessionStorage.getItem('AllDevices') == null) {
+            console.log("select pusty");
+            //console.log(data);
+        } else {
+            data = JSON.parse(sessionStorage.getItem('AllDevices'));
+            console.log("select pełny");
+            //console.log(data);
+        }
+
+        for (let device in data) {
+            let name = data[device].name;
+            let code = data[device].code;
+
+            if (code == 2222) {
+
+                let id2 = `${name+'-select'}`;
+                let id3 = `${'warning_' + name}`;
+                console.log(id2)
+                console.log(id3)
+                const style = getComputedStyle(document.getElementById(name));
+                let select = document.getElementById(id2);
+                let warning = document.getElementById(id3);
+
+                let option_value = select.value;
+
+                let temp1 = false;
+                let temp2 = false;
+
+                if (style.display === "block") {
+                    if (option_value === "") {
+                        warning.style.display = "block";
+                        temp1 = false;
+                    } else {
+                        warning.style.display = "none";
+                        temp1 = true;
+                    }
+
+                    let moc_counter = 0;
+
+                    let moc = document.getElementsByName(`${name + 1}`);
+                    for (let i = 0; i < moc.length; i++) {
+                        if (moc[i].checked) {
+                            moc_counter++;
+                        }
+                    }
+
+                    let warning_power = document.getElementById(`${'warning-' + name + '-power'}`);
+                    if (moc_counter === 0) {
+                        warning_power.style.display = "block";
+                        temp2 = false
+                    } else {
+                        warning_power.style.display = "none";
+                        temp2 = false;
+                    }
+                }
+            }
+        }
+
         return temp1 && temp2;
     }
 
@@ -837,8 +898,159 @@
         }
     }
 
+
+
+
+
+    function lampka(name) {
+        let formid = name + '-warning';
+        return `<div class="device" id="${name}">
+        <div>
+            <h2>${name}
+                <i class='far fa-trash-alt' onclick="deleteDevice('${name}')"></i>
+            </h2>
+        </div>
+        <div class="option">
+            <i class='far fa-lightbulb'></i>
+            <form class="radio" onchange="validateOption('${name}', '${formid}')">
+                <label>
+                    <input class="radiobutton" type="radio" name="${formid}" value="on"> Włącz
+                </label>
+                <label>
+                    <input class="radiobutton" type="radio" name="${formid}" value="off"> Wyłącz
+                </label>
+            </form>
+            <p class="warning" id="${formid}"></p>
+        </div>
+    </div>`;
+    }
+
+
+    function klimatyzacja(name) {
+        let formid = name + '-warning';
+        let tempid = name + `-temp`;
+        return `<div class="device" id="${name}">
+        <div>
+            <h2>${name}
+                <i class='far fa-trash-alt' onclick="deleteDevice('${name}')"></i>
+            </h2>
+        </div>
+        <div class="option">
+            <i class="fas fa-wind"></i>
+            <form class="radio" onchange="validateOption('${name}', '${formid}')">
+                <label>
+                    <input class="radiobutton" type="radio" name="${formid}" value="on"> Włącz
+                </label>
+                <label>
+                    <input class="radiobutton" type="radio" name="${formid}" value="off"> Wyłącz
+                </label>
+            </form>
+            <p class="warning" id="${formid}"></p>
+        </div>
+
+        <div class="temperature">
+            <div class="temp1">
+                <button onclick="decrementValue('${tempid}')"><i class="fas fa-minus"></i></button>
+            </div>
+            <div class="temp2"><h2 id="${tempid}">20 &#x2103</h2></div>
+            <div class="temp1">
+                <button onclick="incrementValue('${tempid}')"><i class="fas fa-plus"></i></button>
+            </div>
+            <div style="clear:both;"></div>
+        </div>
+
+        <div class="power">
+
+            <span>Moc</span>
+            <div class="powerPickerOption">
+                <input type="radio" id="${name + 1}" name="${name + 1}">
+                <label for="${name + 1}"><i id="moc1" class="fas fa-fan"></i></label>
+            </div>
+            <div class="powerPickerOption">
+                <input type="radio" id="${name + 2}" name="${name + 1}">
+                <label for="${name + 2}"><i id="moc2" class="fas fa-fan"></i></label>
+            </div>
+            <div class="powerPickerOption">
+                <input type="radio" id="${name + 3}" name="${name + 1}">
+                <label for="${name + 3}"><i id="moc3" class="fas fa-fan"></i></label>
+            </div>
+            <div class="powerPickerOption">
+                <input type="radio" id="${name + 4}" name="${name + 1}">
+                <label class="button-auto" for="${name + 4}"><b>AUTO</b></label>
+            </div>
+
+        </div>
+        <div style="clear:both;"></div>
+        <p class="warning" id="${'warning-' + name + '-power'}">Wybierz moc urządzenia</p>
+
+        <div class="color-header">
+            <span>Tryb</span>
+            <select name=${name + '-type'}" id="${name + '-select'}"  class="ui search selection dropdown">
+                <option value="">Przeglądaj</option>
+                <option value="AUTO">AUTO</option>
+                <option value="chłodzenie">Chłodzenie</option>
+                <option value="wentylator">Wentylator</option>
+                <option value="suche">Osuszanie powietrza</option>
+                <option value="Ogrzewanie">Ogrzewanie</option>
+                <option value="eco">ECO</option>
+            </select>
+        </div>
+        <p class="warning" id="${'warning_' + name}">Nie wybrano trybu pracy</p>
+
+    </div>`
+    }
+
+    function updateSelect() {
+
+        let data;
+        let box = document.getElementById('box');
+
+        if (sessionStorage.getItem('AllDevices') == null) {
+            console.log("select pusty");
+            //console.log(data);
+        } else {
+            data = JSON.parse(sessionStorage.getItem('AllDevices'));
+            console.log("select pełny");
+            //console.log(data);
+        }
+        //console.log(data)
+
+        for (let device in data) {
+            let name = data[device].name;
+            let code = data[device].code;
+
+            let formid = name + '-warning';
+            deviceId.push({
+                id: name,
+                formid: formid
+            });
+
+            if (code == 1111) {
+                console.log(box)
+                box.innerHTML += lampka(name);
+            }
+            if (code == 2222) {
+                console.log(box)
+                box.innerHTML += klimatyzacja(name);
+            }
+
+            let id_select = `akcesoria-select`;
+            let x = document.getElementById(id_select);
+            let option = document.createElement("option");
+            option.text = name;
+            option.value = name;
+            x.add(option);
+        }
+
+    }
+
+
+
+
+
     window.onload = function () {
         readSessionStorage();
+        updateSelect();
 
         let data = JSON.parse(sessionStorage.getItem('Edycja'));
         document.getElementById('name').value = data.name;
