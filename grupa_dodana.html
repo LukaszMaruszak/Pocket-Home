@@ -12,7 +12,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
     <script src="skryptGrupa.js"></script>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style1.css">
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<link rel="stylesheet" href="alert/dist/sweetalert.css">
+
 </head>
 
 
@@ -29,19 +33,19 @@
 <!-- Navigation Bar -->
 <div class="navbar">
     <div class="dropdown">
-        <span>Wyszukiwanie: </span>
-        <input type="text" placeholder="Wpisz nazwę urządzenia..." id="myInput"> <!-- onkeyup="filterFunction()"-->
-        <!--               onfocus="myFunction()" onfocusout="myFunction2()">-->
+        <input type="text" placeholder="Wpisz nazwę urządzenia..." id="myInput">
         <div id="myDropdown" class="dropdown-content">
-            <!--            <a onclick="openTab('settings_Klimatyzacja')">Opens</a>-->
+            <!--<button href="#Lampka Nocna" onclick="openTab('settings_Lampka Nocna')">TEst</button>-->
         </div>
     </div>
 
+
     <ul id="menu">
 <!--        <li><a href="index.html" title="Main" style="border-color: blue;"> Urządzenia</a></li>-->
-        <li><a href="" title="Dodaj urządzenie">Dodaj urządzenie</a></li>
-        <li><a href="" title="Grupuj">Grupuj</a></li>
-        <li><a onclick="deleteGroup()" title="Grupuj">Usuń grupę</a></li>
+        <li><span onclick="transitionToPage('index.html')" style="border-color: blue;">Urządzenia</span></li>
+        <li><span >Dodaj urządzenie</span></li>
+        <li><span >Grupuj</span></li>
+        <li><span onclick="deleteGroup()" title="Grupuj">Usuń grupę</span></li>
     </ul>
 </div>
 
@@ -52,9 +56,63 @@
         <fieldset>
             <legend id="nazwagrupy"></legend>
             <div id="grupa" class="grupa">
+                <div name= "Klimatyzacja"  id="Klimatyzacja" class="device">
+                    <h2>Klimatyzacja</h2>
+                    <div class="turn">
+                    <i id="Klimatyzacja" class='fas fa-wind'></i>
+                    <label class="switch">
+                    <input type="checkbox">
+                    <span class="slider round"></span>
+                    </label>
+                    </div>
+            </div>
 
+
+                <div name= "Lampka Nocna"  id="Lampka Nocna" class="device">
+                    <h2>Lampka Nocna</h2>
+                    <div class="turn">
+                    <i id="Lampka Nocna" class='far fa-lightbulb'></i>
+                    <label class="switch">
+                    <input type="checkbox">
+                    <span class="slider round"></span>
+                    </label>
+                    </div>
+            </div>
+
+
+                <div name= "Głośnik Andrzeja"  id="Głośnik Andrzeja" class="device">
+                    <h2>Głośnik Andrzeja</h2>
+                    <div class="turn">
+                    <i id="Głośnik Andrzeja" class='fas fa-music'></i>
+                    <label class="switch">
+                    <input type="checkbox">
+                    <span class="slider round"></span>
+                    </label>
+                    </div>
             </div>
         </fieldset>
+
+            <div name= "Lampka Nocna"  id="Lampka Nocna1" class="device">
+                <h2>Lampka Nocna</h2>
+                <div class="turn">
+                    <i id="Lampka Nocnaik" class='far fa-lightbulb'></i>
+                    <label class="switch">
+                        <input type="checkbox">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+
+                <div name= "Lampka Nocna"  id="Lampka Nocna2" class="device">
+                    <h2>Oświetlenie</h2>
+                    <div class="turn">
+                        <i id="Lampka Nocnaikon" class='far fa-lightbulb'></i>
+                        <label class="switch">
+                            <input type="checkbox">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
     </div>
 
 

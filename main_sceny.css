@@ -41,6 +41,7 @@ body {
     padding: 20px;
     background: rgba(172, 170, 170, 0.33);
     border-radius: 20px;
+    font-size: 160%;
 }
 
 .button-add-device {
@@ -81,6 +82,7 @@ input[type=radio] {
     padding: 12px 42px;
     font-size: 18px;
     margin-bottom: 50px;
+    font-size: 200%;
 }
 
 .button-cancel {

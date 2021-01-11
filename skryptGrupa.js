@@ -4,37 +4,37 @@ var d1 = {
 	"settings": "settings_Lampka Nocna"
 }
 var d2 = {
-	"name": "Lampka Nocna",
-	"code": "2222",
-	"settings": "settings_Klimatyzacja"
+	"name": "Głośnik Andrzeja",
+	"code": "3333",
+	"settings": "settings_Głośnik Andrzeja"
 }
 
 var d3 = {
 	"name": "Oświetlenie w łazience",
-	"code": "2222",
+	"code": "1111",
 	"settings": "settings_Klimatyzacja2"
 }
 
 var d4 = {
-	"name": "Klimatyzacja3",
+	"name": "Klimatyzacja",
 	"code": "2222",
 	"settings": "settings_Klimatyzacja3"
 }
 
 var codes = ['1111', '2222'];
-var names = ["Lampka Nocna", "Lampka Nocna", "Oświetlenie w łazience", "Klimatyzacja"];
-var AllDevices = [d1, d2, d3, d4];
+var names = ["Lampka Nocna", "Klimatyzacja", "Głośnik Andrzeja"];
+var AllDevices2 = [d1, d2, d3, d4];
 
 
 if (!sessionStorage.isActive) {
-	sessionStorage.setItem('AllDevices', JSON.stringify(AllDevices));
+	sessionStorage.setItem('AllDevices2', JSON.stringify(AllDevices2));
 	sessionStorage.setItem('names', names);
 	sessionStorage.isActive = 1;
 }
 
 function printDevices() {
-	for (var i in AllDevices) {
-		console.log(i + ": " + AllDevices[i].name);
+	for (var i in AllDevices2) {
+		console.log(i + ": " + AllDevices2[i].name);
 	}
 }
 
@@ -66,12 +66,12 @@ function addDevice(name, code) {
 			"code": code
 		}
 		addDevice2(name, code);
-		//sessionStorage.setItem("AllDevices", JSON.stringify(AllDevices));
-		var len = sessionStorage.AllDevices.length;
+		//sessionStorage.setItem("AllDevices2", JSON.stringify(AllDevices2));
+		var len = sessionStorage.AllDevices2.length;
 		var b = ",\n{\"name\":" + "\"" + temp.name + "\"" + ",\"code\":\"" + temp.code + "\"}";
 		var position = len - 1;
-		var output = [sessionStorage.AllDevices.slice(0, position), b, sessionStorage.AllDevices.slice(position)].join('');
-		sessionStorage.setItem("AllDevices", output);
+		var output = [sessionStorage.AllDevices2.slice(0, position), b, sessionStorage.AllDevices2.slice(position)].join('');
+		sessionStorage.setItem("AllDevices2", output);
 	}
 }
 
@@ -181,12 +181,12 @@ function addDevice2(name, code) {
 }
 
 function prepareJSON(json) {
-	//sessionStorage.setItem("AllDevices", JSON.stringify(AllDevices));
-	var len = sessionStorage.AllDevices.length;
+	//sessionStorage.setItem("AllDevices2", JSON.stringify(AllDevices2));
+	var len = sessionStorage.AllDevices2.length;
 	var b = ",\n{\"name\":" + "\"" + temp.name + "\"" + ",\"code\":\"" + temp.code + "\"}";
 	var position = len - 1;
-	var output = [sessionStorage.AllDevices.slice(0, position), b, sessionStorage.AllDevices.slice(position)].join('');
-	sessionStorage.setItem("AllDevices", output);
+	var output = [sessionStorage.AllDevices2.slice(0, position), b, sessionStorage.AllDevices2.slice(position)].join('');
+	sessionStorage.setItem("AllDevices2", output);
 }
 
 function refreshNames() {
@@ -201,8 +201,26 @@ function refreshNames() {
 	}
 }
 
+/*function refreshDevices2() {
+	//var data = JSON.parse(sessionStorage.getItem("AllDevices2"));
+	for (var i in data) {
+		addDevice2(data[i].name, data[i].code);
+	}
+	refreshNames();
+}*/
+
 function refreshDevices() {
-	var data = JSON.parse(sessionStorage.getItem("AllDevices"));
+	var refreshed = sessionStorage.getItem("AllDevices2")
+	console.log("AllDevices2: " + refreshed);
+	refreshed = refreshed.replaceAll("}", "},");
+	refreshed = refreshed.replaceAll(",,", ",");
+	console.log("Last: " + refreshed[refreshed.length - 2])
+	if (refreshed[refreshed.length - 2] === ',') {
+		refreshed = refreshed.slice(0, refreshed.length - 2);
+		refreshed += "]";
+	}
+	console.log("Refreshed after replace: " + refreshed)
+	var data = JSON.parse(refreshed);
 	for (var i in data) {
 		addDevice2(data[i].name, data[i].code);
 	}
@@ -215,14 +233,14 @@ function deleteDevice1(id) {
 }
 
 function deleteDevice2(id) {
-	var json = JSON.parse(sessionStorage.getItem("AllDevices"));
+	var json = JSON.parse(sessionStorage.getItem("AllDevices2"));
 	for (var i = 0; i < json.length; i++) {
 		if (json[i].name == id) {
 			json.splice(i, 1);
 		}
 	}
 	var output = JSON.stringify(json);
-	sessionStorage.setItem("AllDevices", output);
+	sessionStorage.setItem("AllDevices2", output);
 }
 
 function deleteName(id) {
@@ -511,21 +529,39 @@ function deleteDevice(id, title) {
     }
 }
 
+
+window.transitionToPage = function (href) {
+	document.querySelector('body').style.opacity = 0
+	setTimeout(function () {
+		window.location.href = href
+	}, 500)
+}
+
+
 function deleteGroup() {
-    var group = prompt("Podaj nazwę grupy do usunięcia");
-    let name = sessionStorage.getItem("Grupa");
-	console.log(group)
-    if (group == null || group === "") {
-        //console.log("Nie podano nazwy grupy");
-		confirm("Nie podano nazwy grupy.");
-    } else if(group === name){
-		if (confirm("Czy chcesz usunąć grupe?")) {
-			console.log("usunięto grupe")
-			location.href = 'index.html';
-		}
-	}else{
-		confirm("Grupa o takiej nazwie nie istnieje.");
-	}
+	swal("Podaj nazwę grupy do usunięcia", {
+	   content: "input",
+	})
+	   .then((value) => {
+		  let name = sessionStorage.getItem("Grupa");
+		  if (value == null || value === "") {
+			 swal(`Nie podano nazwy grupy`);
+		  }else if (value === name) {
+			 swal({
+				text: "Czy chcesz usunąć grupę " + value + " ?",
+				icon: "warning",
+				buttons: true,
+				dangerMode: true,
+			 })
+				.then((willDelete) => {
+				   if (willDelete) {
+					  location.href = 'index.html';
+				   }
+				});
+		  } else {
+			 swal(`Grupa o takiej nazwie nie istnieje`);
+		  }
+	   });
 }
 
 let numer_domownika = 1;
@@ -651,12 +687,12 @@ function animateWorkingScena(){
 }
 
 window.onload = function () {
-	refreshDevices();
+	//refreshDevices();
     console.log("Refreshing data....");
     readSessionStorage();
     updateSceny();
     sprawdz_ilosc_scen();
-    updateSelectWithDevicesInSceny();
+   // updateSelectWithDevicesInSceny();
     animateWorkingScena();
 
     let nazwa = sessionStorage.getItem("Grupa");

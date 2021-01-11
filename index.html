@@ -2,153 +2,125 @@
 <html>
 
 <head>
-    <title>Pocket Home</title>
-    <meta charset="UTF-8">
-    <!--    wstawić do całości-->
-    <link href="https://cdn.jsdelivr.net/semantic-ui/2.1.8/semantic.min.css" rel="stylesheet"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/semantic-ui/2.1.8/semantic.min.js"></script>
-    <meta name="author" content="Konrad Dudek and Łukasz Maruszak">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
-    <script src="skrypt2.js"></script>
+	<title>Pocket Home</title>
+	<meta charset="UTF-8">
+	<!--    wstawić do całości-->
+	<link href="https://cdn.jsdelivr.net/semantic-ui/2.1.8/semantic.min.css" rel="stylesheet" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/semantic-ui/2.1.8/semantic.min.js"></script>
+	<meta name="author" content="Konrad Dudek and Łukasz Maruszak">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src='https://kit.fontawesome.com/a076d05399.js'></script>
+	<script src="skrypt2.js"></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<link rel="stylesheet" href="alert/dist/sweetalert.css">
 </head>
 <link rel="stylesheet" href="style.css">
 
-<body>
-<!-- Header -->
-<nav class="navigation-bar">
-    <img class="logo" src="img/logo.png" alt="logo">
-    <ul>
-        <li><a href="index.html">Witaj w domu!</a></li>
-    </ul>
-</nav>
-<div style="clear:both;"></div>
+<body onload="start()">
+	<!-- Header -->
+	<nav class="navigation-bar">
+		<img class="logo" src="img/logo.png" alt="logo">
+		<ul>
+			<li><a href="#">Witaj w domu!</a></li>
+		</ul>
+	</nav>
+	<div style="clear:both;"></div>
 
-<!-- Navigation Bar -->
-<div class="navbar">
-    <div class="dropdown">
-        <span>Wyszukiwanie: </span>
-        <input type="text" placeholder="Wpisz nazwę urządzenia..." id="myInput" onkeyup="filterFunction()"
-               onfocus="myFunction()" onfocusout="myFunction2()">
-        <div id="myDropdown" class="dropdown-content">
-            <a onclick="openTab('settings_Klimatyzacja')">Opens</a>
-        </div>
-    </div>
+	<!-- Navigation Bar -->
+	<div class="navbar">
+		<div class="dropdown">
+			<input type="text" placeholder="Wpisz nazwę urządzenia..." id="myInput" onkeyup="filterFunction()"
+				onfocus="myFunction()" onfocusout="myFunction2()">
+			<div id="myDropdown" class="dropdown-content">
+				<!--<button href="#Lampka Nocna" onclick="openTab('settings_Lampka Nocna')">TEst</button>-->
+			</div>
+		</div>
 
-    <ul id="menu">
-<!--        <li><a href="index.html" title="Main" style="border-color: blue;"> Urządzenia</a></li>-->
-        <li><a href="dodaj_urzadzenie.html" title="Dodaj urządzenie">Dodaj urządzenie</a></li>
-        <li><a href="grupa.html" title="Grupuj">Grupuj</a></li>
-        <li><a onclick="deleteGroup()" title="Grupuj">Usuń grupę</a></li>
-    </ul>
-</div>
+		<ul id="menu">
+			<li><span onclick="transitionToPage('index.html')" style="border-color: blue;">Urządzenia</span></li>
+			<li><span onclick="transitionToPage('dodaj_urzadzenie.html')">Dodaj urządzenie</span></li>
+			<li><span onclick="transitionToPage('grupa.html')">Grupuj</span></li>
+			<li><span onclick="deleteGroup()" title="Grupuj">Usuń grupę</span></li>
+		</ul>
+	</div>
 
-<div class="row">
-    <!--MAIN-->
+	<div class="row">
+		<!--MAIN-->
 
-    <div id="devices" class="devices">
-
-
-    </div>
-
-    <!--Sidebar-->
-    <!--Sidebar-->
-    <div class="sidebar">
-        <!--Sceny-->
-        <div class="sceny">
-            <fieldset>
-                <legend>Sceny</legend>
-                <div class="sceny_in" id="sceny_in">
-
-                    <!--                    <div class="scena" id="scena1">-->
-                    <!--                        <div id="inside">-->
-                    <!--                        <h2>Spotkanie z przyjaciółmi</h2>-->
-                    <!--                        <div class="icon">-->
-                    <!--                            <i class="far fa-edit"></i>-->
-                    <!--                            <i class="far fa-trash-alt" onclick="deleteDevice('scena1')"></i>-->
-                    <!--                        </div>-->
-                    <!--                        <div class="toggle">-->
-                    <!--                            <label class="switch">-->
-                    <!--                                <input type="checkbox">-->
-                    <!--                                <span class="slider round"></span>-->
-                    <!--                            </label>-->
-                    <!--                        </div>-->
-                    <!--                        <div style="clear:both;"></div>-->
-                    <!--                        </div>-->
-                    <!--                    </div>-->
-
-                    <!--                    <div class="scena" id="scena2">-->
-                    <!--                        <h2>Jestem w pracy</h2>-->
-                    <!--                        <div class="icon">-->
-                    <!--                            <i class="far fa-edit"></i>-->
-                    <!--                            <i class="far fa-trash-alt" onclick="deleteDevice('scena2')"></i>-->
-                    <!--                        </div>-->
-                    <!--                        <div class="days">-->
-                    <!--                            <h3>P T Ś C P S N  08:00 - 16:00</h3>-->
-                    <!--                        </div>-->
-
-                    <!--                    </div>-->
-                    <h2 id="brak_scen">Brak dodanych scen</h2>
-                    <button class="dodaj" type="button" onclick="addToSessionStorage()">Dodaj scenę</button>
-                    <div style="clear:both;"></div>
-                </div>
-            </fieldset>
-        </div>
-        <!--Domownicy-->
-        <div class="domownicy">
-            <fieldset>
-                <legend>Domownicy</legend>
-                <div class="domownicy_in">
-
-                    <div class="dom" id="dom1">
-                        <img id="domownik1" class="domownik">
-                        <figcaption>Jan</figcaption>
-                        <div onclick="usunDomownika('dom1')" class="overlay">
-                            <div class="text">Usuń</div>
-                        </div>
-                    </div>
-
-                    <div class="dom" id="dom2">
-                        <img id="domownik2" class="domownik">
-                        <figcaption></figcaption>
-                        <div onclick="usunDomownika('dom2')" class="overlay">
-                            <div class="text">Usuń</div>
-                        </div>
-                    </div>
-
-                    <div class="dom" id="dom3">
-                        <img id="domownik3" class="domownik">
-                        <figcaption></figcaption>
-                        <div onclick="usunDomownika('dom3')" class="overlay">
-                            <div class="text">Usuń</div>
-                        </div>
-                    </div>
-
-                    <div class="dom" id="dom4">
-                        <img id="domownik4" class="domownik">
-                        <figcaption></figcaption>
-                        <div onclick="usunDomownika('dom4')" class="overlay">
-                            <div class="text">Usuń</div>
-                        </div>
-                    </div>
+		<div id="devices" class="devices">
 
 
-                    <i onclick="dodajDomownika()" class="fas fa-plus"></i>
-                    <div style="clear:both;"></div>
-                    <h2 id="brak_domownikow">Brak dodanych domowników</h2>
-                </div>
-            </fieldset>
-        </div>
-    </div>
-</div>
-</div>
+		</div>
 
-<!-- Footer -->
-<div class="footer">
-    <span>Konrad Dudek and Łukasz Maruszak &copy 2021</span>
-</div>
-</div>
+		<!--Sidebar-->
+		<div class="sidebar">
+
+			<!--Sceny-->
+			<div class="sceny">
+				<fieldset>
+					<legend>Sceny</legend>
+					<div class="sceny_in" id="sceny_in">
+						<h2 id="brak_scen">Brak dodanych scen</h2>
+						<button class="dodaj" type="button" onclick="addToSessionStorage()">Dodaj scenę</button>
+						<div style="clear:both;"></div>
+					</div>
+				</fieldset>
+			</div>
+
+			<!--Domownicy-->
+			<div class="domownicy">
+				<fieldset>
+					<legend>Domownicy</legend>
+					<div class="domownicy_in">
+
+						<div class="dom" id="dom1">
+							<img id="domownik1" class="domownik">
+							<figcaption>Jan</figcaption>
+							<div onclick="JSalertDeleteDomownik('dom1')" class="overlay">
+								<div class="text">Usuń</div>
+							</div>
+						</div>
+
+						<div class="dom" id="dom2">
+							<img id="domownik2" class="domownik">
+							<figcaption></figcaption>
+							<div onclick="JSalertDeleteDomownik('dom2')" class="overlay">
+								<div class="text">Usuń</div>
+							</div>
+						</div>
+
+						<div class="dom" id="dom3">
+							<img id="domownik3" class="domownik">
+							<figcaption></figcaption>
+							<div onclick="JSalertDeleteDomownik('dom3')" class="overlay">
+								<div class="text">Usuń</div>
+							</div>
+						</div>
+
+						<div class="dom" id="dom4">
+							<img id="domownik4" class="domownik">
+							<figcaption></figcaption>
+							<div onclick="JSalertDeleteDomownik('dom4')" class="overlay">
+								<div class="text">Usuń</div>
+							</div>
+						</div>
+
+						<i onclick="dodajDomownika()" class="fas fa-plus"></i>
+						<div style="clear:both;"></div>
+						<h2 id="brak_domownikow">Brak dodanych domowników</h2>
+					</div>
+				</fieldset>
+			</div>
+		</div>
+	</div>
+	</div>
+
+	<!-- Footer -->
+	<div class="footer">
+		<span>Konrad Dudek and Łukasz Maruszak &copy 2021</span>
+	</div>
+	</div>
 
 </body>
 
