@@ -89,8 +89,7 @@
         <option value="">Dodaj urządzenie</option>
         <option value="lampka_nocna">Lampka nocna</option>
         <option value="oswietlenie">Oświetlenie w łazience</option>
-        <option value="tv">TV w salonie</option>
-        <option value="glosnik">Głośnik w pokoju Andrzeja</option>
+        <option value="glosnik">Głośnik Andrzeja</option>
         <option value="air_conditioning">Klimatyzacja</option>
     </select>
 
@@ -188,7 +187,7 @@
 
     <div class="device" id="glosnik">
         <div>
-            <h2>Głośnik w pokoju Andrzeja
+            <h2>Głośnik Andrzeja
                 <i class='far fa-trash-alt' onclick="deleteDevice('glosnik')"></i>
             </h2>
         </div>
@@ -440,15 +439,61 @@
 
         var option_value = select.value;
 
+        let temp1 = false;
+
+
         if (style.display === "block") {
             if (option_value === "") {
                 warning.style.display = "block";
-                return false;
+                temp1 = false;
             } else {
                 warning.style.display = "none";
-                return true;
+                temp1 = true;
             }
         }
+
+
+
+        if (sessionStorage.getItem('AllDevices') == null) {
+            console.log("select pusty");
+            //console.log(data);
+        } else {
+            data = JSON.parse(sessionStorage.getItem('AllDevices'));
+            console.log("select pełny");
+            //console.log(data);
+        }
+
+        for (let device in data) {
+            let name = data[device].name;
+            let code = data[device].code;
+
+            if (code == 3333) {
+                console.log(name)
+                let id2 = `${name+'playlist-select'}`;
+                let id3 = `${'warning_music' + name}`;
+                console.log(id2)
+                console.log(id3)
+                let style = getComputedStyle(document.getElementById(name));
+                console.log(style)
+                console.log(document.getElementById(name))
+                let select = document.getElementById(id2);
+                let warning = document.getElementById(id3);
+
+                let option_value = select.value;
+
+                if (style.display === "block") {
+                    if (option_value === "") {
+                        warning.style.display = "block";
+                        temp1 =  false;
+                    } else {
+                        warning.style.display = "none";
+                        temp1 =  true;
+                    }
+
+                }
+            }
+        }
+        return temp1;
     }
 
     function validate_air_conditioning() {
@@ -555,8 +600,7 @@
         {id: "oswietlenie", formid: "swiatlo"},
         {id: "glosnik", formid: "muza"},
         {id: "air_conditioning", formid: "klima"},
-        //{id: "tv", formid: ""}!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11
-    ];
+           ];
 
     function validateOnOffOption() {
         let temp = 0;
@@ -899,6 +943,72 @@
     }
 
 
+    function oswietlenie(name){
+        let formid = name + '-warning';
+        return ` <div class="device" id="${name}">
+        <div>
+            <h2>${name}
+                <i class='far fa-trash-alt' onclick="deleteDevice('${name}')"></i>
+            </h2>
+        </div>
+        <div class="option">
+            <i class='far fa-lightbulb'></i>
+            <form  class="radio" onchange="validateOption('oswietlenie', '${formid}')">
+                <label>
+                    <input class="radiobutton" type="radio" name="${formid}" value="on"> Włącz
+                </label>
+                <label>
+                    <input class="radiobutton" type="radio" name="${formid}" value="off"> Wyłącz
+                </label>
+            </form>
+            <p class="warning" id="${formid}"></p>
+
+            <div>
+                <p>Intensywność światła</p>
+                <span>10%</span>
+                <input type="range" id="intensity" name="intensity"
+                       min="10" max="100">
+                <span>100%</span>
+            </div>
+
+            <div class="color-header">
+                <p>Kolor światła</p>
+
+                <div class="colorPicker">
+                    <div class="colorPickerOption">
+                        <input type="radio" id="${name+'color1'}" name="${name+'color'}" checked>
+                        <label id="colora" for="${name+'color1'}"></label>
+                    </div>
+                    <div class="colorPickerOption">
+                        <input type="radio" id="${name+'color2'}" name="${name+'color'}">
+                        <label id="colorb" for="${name+'color2'}"></label>
+                    </div>
+                    <div class="colorPickerOption">
+                        <input type="radio" id="${name+'color3'}" name="${name+'color'}">
+                        <label id="colorc" for="${name+'color3'}"></label>
+                    </div>
+                    <div class="colorPickerOption">
+                        <input type="radio" id="${name+'color4'}" name="${name+'color'}">
+                        <label id="colord" for="${name+'color4'}"></label>
+                    </div>
+                    <div class="colorPickerOption">
+                        <input type="radio" id="${name+'color5'}" name="${name+'color'}">
+                        <label id="colore" for="${name+'color5'}"></label>
+                    </div>
+                    <div class="colorPickerOption">
+                        <input type="radio" id="${name+'color6'}" name="${name+'color'}">
+                        <label id="colorf" for="${name+'color6'}"></label>
+                    </div>
+                    <div class="colorPickerOption">
+                        <input type="radio" id="${name+'color7'}" name="${name+'color'}">
+                        <label id="colorg" for="${name+'color7'}"></label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>`
+    }
 
 
 
@@ -1000,6 +1110,55 @@
     </div>`
     }
 
+    function glosnik(name) {
+        let formid = name + '-warning';
+        return `<div class="device" id="${name}">
+        <div>
+            <h2>${name}
+                <i class='far fa-trash-alt' onclick="deleteDevice('${name}')"></i>
+            </h2>
+        </div>
+        <div class="option">
+            <i class="fas fa-music"></i>
+            <form class="radio" onchange="validateOption('${name}', '${formid}')">
+                <label>
+                    <input class="radiobutton" type="radio" name="${formid}" value="on"> Włącz
+                </label>
+                <label>
+                    <input class="radiobutton" type="radio" name="${formid}" value="off"> Wyłącz
+                </label>
+            </form>
+            <p class="warning" id="${formid}"></p>
+
+            <div>
+                <p>Głośność</p>
+                <span>10%</span>
+                <input type="range" id="volume" name="intensity"
+                       min="10" max="100">
+                <span>100%</span>
+            </div>
+            <div class="color-header">
+                <p>Wybierz playlistę</p>
+                <select name="${name +'playlist'}" id="${name+'playlist-select'}" class="ui search selection dropdown">
+                    <option value="">Przeglądaj</option>
+                    <option value="hity">Polskie hity</option>
+                    <option value="trening">Trening w domu</option>
+                    <option value="koledy">Kolędy</option>
+                    <option value="ballady">Love Ballads</option>
+                    <option value="metal">New Metal Tracks</option>
+                    <option value="domowka">Domówka</option>
+                    <option value="dance">Dance Classic</option>
+                    <option value="rock">Rock Party</option>
+                    <option value="bifor">Bifor</option>
+                </select>
+            </div>
+            <p class="warning" id="${'warning_music'+name}">Nie wybrano playlisty do odtworzenia</p>
+        </div>
+    </div>`
+    }
+
+
+
     function updateSelect() {
 
         let data;
@@ -1026,13 +1185,38 @@
             });
 
             if (code == 1111) {
-                console.log(box)
-                box.innerHTML += lampka(name);
+                //console.log(box)
+                box.innerHTML += oswietlenie(name);
+                console.log("dodano oswietlenie");
+                // console.log(box)
             }
             if (code == 2222) {
-                console.log(box)
+                // console.log(box)
                 box.innerHTML += klimatyzacja(name);
+                console.log("dodano klima")
+                // let id = `#${name}-select`;
+                // console.log(id);
+                // $(id).dropdown();
             }
+
+            if (code == 3333) {
+                //console.log(box)
+                box.innerHTML += glosnik(name);
+                console.log("dodano glosnik")
+                // let id = `${'#'+name+'playlist-select'}`;
+                // console.log(id);
+                // $(id).dropdown();
+            }
+
+            if (code == 4444) {
+                //console.log(box)
+                box.innerHTML += lampka(name);
+                console.log("dodano lampka")
+                // let id = `#${name}-select`;
+                // console.log(id);
+                // $(id).dropdown();
+            }
+
 
             let id_select = `akcesoria-select`;
             let x = document.getElementById(id_select);
