@@ -35,6 +35,16 @@ body {
     line-height: 100px;
 }
 
+.w_scenach {
+    text-align: center;
+    width: 300px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 12px;
+    padding-right: 12px;
+    
+  }
+  
 .form {
     margin-left: 10px;
     margin-right: 10px;

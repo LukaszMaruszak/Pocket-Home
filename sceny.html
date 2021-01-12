@@ -845,7 +845,7 @@ return temp1;
         var warning = document.getElementById("warning1");
 
         var name_value = name.value;
-        const max_name = 10;
+        const max_name = 20;
 
         for (let scena in sceny) {
             if (sceny[scena].name === name_value) {
@@ -1110,7 +1110,7 @@ return temp1;
 
         <div class="color-header">
             <span>Tryb</span>
-            <select name=${name + '-type'}" id="${name + '-select'}"  class="ui search selection dropdown">
+            <select name=${name + '-type'}" id="${name + '-select'}"  class="w_scenach">
                 <option value="">Przeglądaj</option>
                 <option value="AUTO">AUTO</option>
                 <option value="chłodzenie">Chłodzenie</option>
@@ -1154,7 +1154,7 @@ return temp1;
             </div>
             <div class="color-header">
                 <p>Wybierz playlistę</p>
-                <select name="${name +'playlist'}" id="${name+'playlist-select'}" class="ui search selection dropdown">
+                <select name="${name +'playlist'}" id="${name+'playlist-select'}" class="w_scenach">
                     <option value="">Przeglądaj</option>
                     <option value="hity">Polskie hity</option>
                     <option value="trening">Trening w domu</option>

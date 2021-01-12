@@ -1,11 +1,11 @@
 var d1 = {
-	"name": "Lampka Nocna",
+	"name": "Lampka w salonie",
 	"code": "1111",
 }
 var d2 = {
-	"name": "Klimatyzacja",
+	"name": "Wiatrak",
 	"code": "2222",
-	"settings" : "settings_Klimatyzacja"
+	"settings": "settings_Klimatyzacja"
 }
 
 var d3 = {
@@ -14,7 +14,7 @@ var d3 = {
 }
 
 var codes = ['1111', '2222', '3333', '4444'];
-var names = ["Lampka Nocna", "Klimatyzacja", "Głośnik w salonie"];
+var names = ["Lampka w salonie", "Klimatyzacja", "Głośnik w salonie"];
 var AllDevices = [d1, d2, d3];
 
 
@@ -48,14 +48,14 @@ function addDevice(name, code) {
 		document.getElementById('device_code').style.borderColor = 'red';
 	}
 	var Devices = JSON.parse(sessionStorage.getItem("AllDevices"));
-	for (var i in Devices){
+	for (var i in Devices) {
 		names.push(Devices[i].name);
 	}
 	if (names.includes(name)) {
 		document.getElementById('name_valid').innerHTML = "Nazwa już istnieje!";
 		document.getElementById('device_name').style.borderColor = 'red';
 	} else if (!names.includes(name) && (codes.includes(code)) && name.length != 0 && name.length <= 20) {
-		
+
 		var temp = {
 			"name": name,
 			"code": code
@@ -65,11 +65,6 @@ function addDevice(name, code) {
 		AllDevices.push(temp);
 		sessionStorage.setItem("AllDevices", JSON.stringify(AllDevices));
 		addDevice2(name, code);
-		//sessionStorage.setItem("AllDevices", JSON.stringify(AllDevices));
-		//var len = sessionStorage.AllDevices.length;
-		//var b = `{"name":"` + temp.name + `","code":"` + temp.code + `"},`;
-		//var position = len - 1;
-		//var output = [sessionStorage.AllDevices.slice(0, position), b, sessionStorage.AllDevices.slice(position)].join('');
 		JSalert(name);
 	}
 }
@@ -99,6 +94,7 @@ function addDevice2(name, code) {
 			'<br>' +
 			'</div>' +
 			'<div class="colors">' +
+			'<br>'+
 			'<h2 class="text-color">Kolor światła</h2>' +
 
 			'<input type="radio" name="drone" style="background-color: #42ea00;">' +
@@ -109,6 +105,10 @@ function addDevice2(name, code) {
 			'<input type="radio" name="drone" style="background-color: #0d64ff;">' +
 
 			'</div>' +
+			'<br>'+
+			'<br>'+
+			'Znajduję się w scenach: <select name="akcesoria" id="' + name + '-select" class="w_scenach">'+
+                '</select>'+
 			'</div>'
 	}
 
@@ -131,14 +131,14 @@ function addDevice2(name, code) {
 
 			`<div class="temperature">
             <div class="temp1">
-                <button onclick="decrementValue('` +name+`-temp')"><i class="fas fa-minus"></i></button>
+                <button onclick="decrementValue('` + name + `-temp')"><i class="fas fa-minus"></i></button>
             </div>
-            <div class="temp2"><h2 id="` + name +`-temp">20 &#x2103</h2></div>
+            <div class="temp2"><h2 id="` + name + `-temp">20 &#x2103</h2></div>
             <div class="temp1">
-                <button onclick="incrementValue('` +name+`-temp')"><i class="fas fa-plus"></i></button>
+                <button onclick="incrementValue('` + name + `-temp')"><i class="fas fa-plus"></i></button>
             </div>
             <div style="clear:both;"></div>
-        </div>`+
+        </div>` +
 
 			'<div class="power">' +
 
@@ -164,7 +164,7 @@ function addDevice2(name, code) {
 
 			'<div class="color-header">' +
 			'<span>Tryb</span>' +
-			'<select name="type" id="type-select" class="ui search selection dropdown">' +
+			'<select name="type" id="type-select" class="w_scenach">' +
 			'<option value="">Przeglądaj</option>' +
 			'<option value="AUTO">Automatyczna</option>' +
 			'<option value="chłodzenie">Chłodzenie</option>' +
@@ -175,6 +175,10 @@ function addDevice2(name, code) {
 			'</select>' +
 			'</div>' +
 			'</div>' +
+			'<br>'+
+			'<br>'+
+			'Znajduję się w scenach: <select name="akcesoria" id="' + name + '-select" class="w_scenach"'+
+                '</select>'+
 			'</div>' +
 			'</div>'
 	}
@@ -188,31 +192,6 @@ function addDevice2(name, code) {
 	}
 }
 
-
-
-/*function refreshNames() {
-	console.log("Names: " + sessionStorage.getItem("names"));
-	var str = sessionStorage.getItem("names");
-	if (str[str.length - 1] == ",") {
-		str = str.slice(0, str.length - 1)
-		console.log("Nazwy po usunieciu przecinka na koncu: " + str);
-	}
-	var res = str.split(",");
-	document.getElementById('myDropdown').innerHTML = "";
-	for (var i in res) {
-		document.getElementById('myDropdown').innerHTML += `<a href="#` + res[i] + `" onclick="openTab('settings_` + res[i] + `')">` + res[i] + `</a>`;
-	}
-	console.log(document.getElementById('myDropdown').innerHTML);
-}*/
-
-function refreshDevices2() {
-	console.log("AllDevices: " + sessionStorage.getItem("AllDevices"))
-	var data = JSON.parse(sessionStorage.getItem("AllDevices"));
-	for (var i in data) {
-		addDevice2(data[i].name, data[i].code);
-	}
-	//refreshNames();
-}
 
 function refreshDevices() {
 	console.log(sessionStorage.getItem("AllDevices"));
@@ -268,6 +247,12 @@ function deleteDevice(id) {
 	deleteDevice2(id);
 	deleteName(id)
 	refreshNames();
+	var data = JSON.parse(sessionStorage.getItem("AllDevices"));
+	console.log("ILE: " + data.length)
+	if (data.length == 0){
+		document.getElementById('devices').innerHTML = "<h4> Brak dodanych urządzeń </h4>"
+	}
+	//refreshDevices();
 }
 
 function openTab(tabName) {
@@ -277,7 +262,7 @@ function openTab(tabName) {
 	var p_width = document.getElementById("devices").offsetWidth;
 	document.getElementById(tabName).style.width = p_width / 1.1 + "px";
 	var p_height = document.getElementById("devices").offsetHeight;
-	document.getElementById(tabName).style.height = "430px";
+	document.getElementById(tabName).style.height = "450px";
 	document.getElementById(new_name + 'more_button').style.display = "none";
 }
 
@@ -290,13 +275,12 @@ function closeTab(tabName) {
 	document.getElementById(new_name + 'more_button').style.display = "block";
 }
 
-function refreshNames(){
+function refreshNames() {
 	var Devices = JSON.parse(sessionStorage.getItem("AllDevices"));
 	document.getElementById('myDropdown').innerHTML = "";
-	for (var i in Devices){
+	for (var i in Devices) {
 		var name = Devices[i].name;
-		//document.getElementById('myDropdown').innerHTML += `<a href="${"#" + name}" onclick="openTab('${"settings_" + name}')"> ${name} </a>`;
-		document.getElementById('myDropdown').innerHTML += '<a href="#' + name +'" onclick="openTab(\'settings_' + name + '\')">' + name + '</a>'
+		document.getElementById('myDropdown').innerHTML += '<a href="#' + name + '" onclick="openTab(\'settings_' + name + '\')">' + name + '</a>'
 	}
 	console.log(document.getElementById('myDropdown').innerHTML);
 }
@@ -416,44 +400,42 @@ $(document).ready(function () {
 //-------------------------
 
 var scena1 = {
-    type: "day_and_hour",
-    name: "Jestem w pracy",
-    timeStart: "08:00",
-    timeEnd: "16:00",
-    days: ["P", "W", "Ś", "C", "Pt"],
-    devices: [
-        {
-            id: "lampka_nocna",
-            mode: "off"
-        },
-        {
-            id: "glosnik",
-            mode: "off"
-        }
-    ],
-    device: ['oswietlenie', 'glosnik']
+	type: "day_and_hour",
+	name: "Jestem w pracy",
+	timeStart: "08:00",
+	timeEnd: "16:00",
+	days: ["P", "W", "Ś", "C", "Pt"],
+	devices: [{
+			id: "lampka_nocna",
+			mode: "off"
+		},
+		{
+			id: "glosnik",
+			mode: "off"
+		}
+	],
+	device: ['oswietlenie', 'glosnik']
 };
 var scena2 = {
-    type: "recznie",
-    name: "Impreza",
-    timeStart: "20:00",
-    timeEnd: "23:00",
-    days: ["Pt"],
-    devices: [
-        {
-            id: "oswietlenie",
-            mode: "on"
-        },
-        {
-            id: "glosnik",
-            mode: "on"
-        }
-    ],
-    device: ['oswietlenie', 'glosnik', 'lampka_nocna']
+	type: "recznie",
+	name: "Impreza",
+	timeStart: "20:00",
+	timeEnd: "23:00",
+	days: ["Pt"],
+	devices: [{
+			id: "oswietlenie",
+			mode: "on"
+		},
+		{
+			id: "glosnik",
+			mode: "on"
+		}
+	],
+	device: ['oswietlenie', 'glosnik', 'lampka_nocna']
 };
 
-function wzorScenaManually(id, title){
-   return `<div class="scena" id="${id}">
+function wzorScenaManually(id, title) {
+	return `<div class="scena" id="${id}">
         <div id="inside">
             <h2>${title}</h2>
             <div class="icon">
@@ -471,8 +453,8 @@ function wzorScenaManually(id, title){
     </div>`
 }
 
-function wzorScenaAuto(id, title, daysandhours){
-   return `<div class="scena" id="${id}">
+function wzorScenaAuto(id, title, daysandhours) {
+	return `<div class="scena" id="${id}">
         <h2>${title}</h2>
         <div class="icon">
             <i class="far fa-edit" onclick="editScena('${title}')"></i>
@@ -489,204 +471,204 @@ var sceny = [scena1, scena2];
 let dodane_sceny = 2;
 
 function readSessionStorage() {
-    if (sessionStorage.getItem('Sceny') === null) {
-        console.log("Pusty plik w bazie");
-    } else {
-        var data = JSON.parse(sessionStorage.getItem('Sceny'));
-        console.log("Odczytano dane z bazy");
-        sceny = data;
-        dodane_sceny = sceny.length;
-    }
+	if (sessionStorage.getItem('Sceny') === null) {
+		console.log("Pusty plik w bazie");
+	} else {
+		var data = JSON.parse(sessionStorage.getItem('Sceny'));
+		console.log("Odczytano dane z bazy");
+		sceny = data;
+		dodane_sceny = sceny.length;
+	}
 }
 
 function addToSessionStorage() {
-    sessionStorage.setItem('Sceny', JSON.stringify(sceny));
-    document.location= 'sceny.html';
+	sessionStorage.setItem('Sceny', JSON.stringify(sceny));
+	document.location = 'sceny.html';
 }
 
-function updateSceny(){
-    let id_number = dodane_sceny;
-    console.log("update");
-   // console.log(sceny);
-    for(let i = 0; i < dodane_sceny; i++){
-        //console.log(sceny[i].type);
-        if(sceny[i].type === "recznie"){
-            let id = "scena" + id_number;
-            let title = sceny[i].name;
-            document.getElementById("sceny_in").insertAdjacentHTML('afterbegin' ,wzorScenaManually(id, title));
-            id_number--;
-        }
-        if(sceny[i].type === "day_and_hour"){
-            let id = "scena" + id_number;
-            let title = sceny[i].name;
-            let day = sceny[i].days.join(" ");
-            let hours = " " + sceny[i].timeStart + " - " + sceny[i].timeEnd;
-            document.getElementById("sceny_in").insertAdjacentHTML('afterbegin' ,  wzorScenaAuto(id, title, day + hours));
-            id_number--;
-        }
-    }
+function updateSceny() {
+	let id_number = dodane_sceny;
+	console.log("update");
+	// console.log(sceny);
+	for (let i = 0; i < dodane_sceny; i++) {
+		//console.log(sceny[i].type);
+		if (sceny[i].type === "recznie") {
+			let id = "scena" + id_number;
+			let title = sceny[i].name;
+			document.getElementById("sceny_in").insertAdjacentHTML('afterbegin', wzorScenaManually(id, title));
+			id_number--;
+		}
+		if (sceny[i].type === "day_and_hour") {
+			let id = "scena" + id_number;
+			let title = sceny[i].name;
+			let day = sceny[i].days.join(" ");
+			let hours = " " + sceny[i].timeStart + " - " + sceny[i].timeEnd;
+			document.getElementById("sceny_in").insertAdjacentHTML('afterbegin', wzorScenaAuto(id, title, day + hours));
+			id_number--;
+		}
+	}
 }
 
 
 function sprawdz_ilosc_scen() {
-    if (dodane_sceny === 0) {
-        document.getElementById("brak_scen").style.display = "block";
-    } else {
-        document.getElementById("brak_scen").style.display = "none";
-    }
+	if (dodane_sceny === 0) {
+		document.getElementById("brak_scen").style.display = "block";
+	} else {
+		document.getElementById("brak_scen").style.display = "none";
+	}
 }
 
 
 function deleteScene(id, title) {
-    if (confirm("Czy chcesz usunąć scenę?")) {
-        dodane_sceny--;
-        let scena = document.getElementById(id);
-        for(let i = 0; i < sceny.length; i++){
-            if(sceny[i].name === title){
-                sceny.splice(i, 1);
-            }
-        }
-        scena.remove();
-        sprawdz_ilosc_scen();
-    } else {
-
-    }
+		dodane_sceny--;
+		let scena = document.getElementById(id);
+		for (let i = 0; i < sceny.length; i++) {
+			if (sceny[i].name === title) {
+				sceny.splice(i, 1);
+			}
+		}
+		scena.remove();
+		sprawdz_ilosc_scen();
 }
 
 function deleteGroup() {
-    var group = prompt("Podaj nazwę grupy do usunięcia");
-    if (group == null || group === "") {
-        console.log("Nie podano nazwy grupy")
-    } else {
-        if (confirm("Czy chcesz usunąć grupe?")) {
-            console.log("usunięto grupe")
-        }
-    }
+	var group = prompt("Podaj nazwę grupy do usunięcia");
+	if (group == null || group === "") {
+		console.log("Nie podano nazwy grupy")
+	} else {
+		if (confirm("Czy chcesz usunąć grupe?")) {
+			console.log("usunięto grupe")
+		}
+	}
 }
 
 let numer_domownika = 1;
 
 function sprawdz_ilosc_domownikow() {
-    if (numer_domownika <= 0) {
-        document.getElementById("brak_domownikow").style.display = "block";
-    } else {
-        document.getElementById("brak_domownikow").style.display = "none";
-    }
+	if (numer_domownika <= 0) {
+		document.getElementById("brak_domownikow").style.display = "block";
+	} else {
+		document.getElementById("brak_domownikow").style.display = "none";
+	}
 }
 
 let domownicy = [2, 3, 4];
 
 function dodajDomownika() {
-    if (numer_domownika === 4) {
-        swal({
-            text: "Nie można dodać więcej domowników.",
-            icon: "warning",
-            dangerMode: true,
-        })
-    } else {
-        swal("Podaj nazwę domownika, którego chcesz dodać", {
-            content: "input",
-        })
-            .then((value) => {
-                if (value == null || value === "") {
-                    swal({text: `Nie podano nazwy domownika`,
-                    icon: "error"
-                    });
-                }else if (value.length > 11) {
-                    swal({
-                        text: `Nazwa domownika za długa`,
-                        icon: "error"
-                    });
-                } else {
-                    console.log("dodano domownika")
-                    numer_domownika++;
-                    let n_id = domownicy.shift();
-                    let id = "dom" + n_id;
-                    document.getElementById(id).querySelector("figcaption").innerText = value;
-                    document.getElementById(id).style.display = "block";
-                }
-            });
-    }
-    sprawdz_ilosc_domownikow();
+	if (numer_domownika === 4) {
+		swal({
+			text: "Nie można dodać więcej domowników.",
+			icon: "warning",
+			dangerMode: true,
+		})
+	} else {
+		swal("Podaj nazwę domownika, którego chcesz dodać", {
+				content: "input",
+			})
+			.then((value) => {
+				if (value == null || value === "") {
+					swal({
+						text: `Nie podano nazwy domownika`,
+						icon: "error"
+					});
+				} else if (value.length > 11) {
+					swal({
+						text: `Nazwa domownika za długa`,
+						icon: "error"
+					});
+				} else {
+					console.log("dodano domownika")
+					numer_domownika++;
+					let n_id = domownicy.shift();
+					let id = "dom" + n_id;
+					document.getElementById(id).querySelector("figcaption").innerText = value;
+					document.getElementById(id).style.display = "block";
+				}
+			});
+	}
+	sprawdz_ilosc_domownikow();
 }
 
 function usunDomownika(id) {
-        document.getElementById(id).style.display = "none";
-        numer_domownika--;
-        id = id.slice(3, 4);
-        domownicy.push(parseInt(id));
-    sprawdz_ilosc_domownikow();
+	document.getElementById(id).style.display = "none";
+	numer_domownika--;
+	id = id.slice(3, 4);
+	domownicy.push(parseInt(id));
+	sprawdz_ilosc_domownikow();
 }
 
-function editScena(title){
-    for(let i = 0; i < sceny.length; i++){
-        if(sceny[i].name === title){
-            sessionStorage.setItem('Edycja', JSON.stringify(sceny[i]));
-        }
-    }
-    document.location= 'edycjaSceny.html';
+function editScena(title) {
+	for (let i = 0; i < sceny.length; i++) {
+		if (sceny[i].name === title) {
+			sessionStorage.setItem('Edycja', JSON.stringify(sceny[i]));
+		}
+	}
+	document.location = 'edycjaSceny.html';
 }
 
-function updateSelectWithDevicesInSceny(){
-    let data;
 
-    if(sessionStorage.getItem('Sceny') == null){
-        data = sceny;
-        console.log("select pusty");
-        //console.log(data);
-    }else{
-        data = JSON.parse(sessionStorage.getItem('Sceny'));
-        console.log("select pełny");
-        //console.log(data);
-    }
-    console.log(data)
 
-    for (let scena in data) {
-       console.log(data[scena])
-        for(let device of data[scena].device) {
 
-            //id select to id_rzadzenia-select
-            let id_select = `${device}-select`
-            let x = document.getElementById(id_select);
-            let option = document.createElement("option");
-            option.text = data[scena].name;
-            //x.add(option);
-        }
-    }
+function updateSelectWithDevicesInSceny() {
+	let data;
+
+	if (sessionStorage.getItem('Sceny') == null) {
+		data = sceny;
+	} else {
+		data = JSON.parse(sessionStorage.getItem('Sceny'));
+	}
+	console.log(data)
+
+	for (let scena in data) {
+		console.log(data[scena])
+		for (let device of data[scena].device) {
+
+			let id_select = `${device}-select`
+			let x = document.getElementById(id_select);
+			if (x == null){
+				console.log("NULL!");
+			}
+			else{
+				let option = document.createElement("option");
+				option.text = data[scena].name;
+				x.add(option);
+			}
+		}
+	}
 }
 
-function animateWorkingScena(){
+function animateWorkingScena() {
 	console.log("Start animation");
-    let data;
-    if(sessionStorage.getItem('Sceny') == null){
-        data = sceny;
-        console.log("select pusty");
-        //console.log(data);
-    }else{
-        data = JSON.parse(sessionStorage.getItem('Sceny'));
-        console.log("select pełny");
-        //console.log(data);
-    }
+	let data;
+	if (sessionStorage.getItem('Sceny') == null) {
+		data = sceny;
+		console.log("select pusty");
+	} else {
+		data = JSON.parse(sessionStorage.getItem('Sceny'));
+		console.log("select pełny");
+	}
 
-    let array = [];
+	let array = [];
 
-    for (let scena in data) {
-        if(data[scena].type === "day_and_hour"){
-            array.push(data[scena]);
-        }
-    }
+	for (let scena in data) {
+		if (data[scena].type === "day_and_hour") {
+			array.push(data[scena]);
+		}
+	}
 
-    let id = "";
+	let id = "";
 
-    let h2 = document.getElementsByTagName("h2");
-    for(let i = 0; i < h2.length; i++) {
-        if(h2[i].innerText === array[length].name){
-            id = h2[i].parentNode.id;
-        }
-    }
-    id = `#${id}`
-    console.log(id)
-    setInterval(function(){$(id).toggleClass('scena-dziala')}, 30000);
+	let h2 = document.getElementsByTagName("h2");
+	for (let i = 0; i < h2.length; i++) {
+		if (h2[i].innerText === array[length].name) {
+			id = h2[i].parentNode.id;
+		}
+	}
+	id = `#${id}`
+	console.log(id)
+	setInterval(function () {
+		$(id).toggleClass('scena-dziala')
+	}, 30000);
 }
 
 function start() {
@@ -766,102 +748,152 @@ function addSpeaker(name) {
 			<input type="range" min="0" max="100" value="50" class="slider_x" id="myRange" oninput="this.nextElementSibling.value=this.value">
 			<output>50</output>
 			<br>
+		<label for="myRange"> Bass</label>
+			<input type="range" min="0" max="100" value="50" class="slider_x" id="myRange" oninput="this.nextElementSibling.value=this.value">
+			<output>50</output>
+			<br>
+
+			<br>
+		<p>Znajduję się w scenach:</p> 
+		<select name="akcesoria" id="` + name + `-select" class="w_scenach">
+		</select>
 			</div>
-		<div class="obrazek">
+		<div class="obrazek" id="` + name +`_obrazek">
 		<img src="images/slawomir.jpg">
 		<br>
-		<i class='fas fa-fast-backward'></i>
-		<i class='fas fa-play'></i>
-		<i class='fas fa-fast-forward'></i>
+		<i class='fas fa-fast-backward' onclick="lastMusic('` + name + `')"></i>
+		<i class='fas fa-play' id="` + name + `_play" onclick="Play('` + name + `')"></i>
+		<i class='fas fa-fast-forward' onclick="nextMusic('` + name + `')"></i>
 		</div>
-		</div>
+
 
 		<span>Akutalnie odtwarzany utwór: </span>
-		<div class="scroll_container">
+		<div  id ="` + name + `_scroll" class="scroll_container">
 		<p>Sławomir - Miłość w Zakopanem </p>
 		</div>
-
+		</div>
 
 	</div>`
 	return result;
 }
 
+function nextMusic(id){
+	console.log("ID: " + id);
+	console.log("BEfore: " + document.getElementById(id).innerHTML);
+	document.getElementById(id +"_obrazek").innerHTML =
+	`<img src="images/slawomir2.jpg">
+	<br>
+	<i class='fas fa-fast-backward' onclick="lastMusic('` + id + `')"></i>
+	<i class='	fas fa-pause' id="` + id + `_stop" onclick="Stop('` + id + `')"></i>
+	<i class='fas fa-fast-forward' onclick="nextMusic('` + id + `')"></i>`
+	console.log("After: " + document.getElementById(id).innerHTML);
+	document.getElementById(id + "_scroll").innerHTML = 
+	`<p>Sławomir - Weselny Pyton </p>`
+}
+
+function lastMusic(id){
+	document.getElementById(id+"_obrazek").innerHTML =
+	`<img src="images/slawomir.jpg">
+	<br>
+	<i class='fas fa-fast-backward' onclick="lastMusic('` + id + `')"></i>
+	<i class='	fas fa-pause' id="` + id + `_stop" onclick="Stop('` + id + `')"></i>
+	<i class='fas fa-fast-forward' onclick="nextMusic('` + id + `')"></i>`
+	console.log("After: " + document.getElementById(id).innerHTML);
+	document.getElementById(id + "_scroll").innerHTML = 
+	`<p>Sławomir - Miłość w Zakopanem </p>`
+}
+
+function Play(id){
+	document.getElementById(id+"_play").outerHTML = `<i class='	fas fa-pause' id="` + id + `_stop" onclick="Stop('` + id + `')"></i>`
+}
+
+function Stop(id){
+	document.getElementById(id+"_stop").outerHTML = `<i class='fas fa-play' id="` + id + `_play" onclick="Play('` + id + `')"></i>`
+}
+
+
+
 function addBulb(name) {
-	var result = '<div name=\"' + name + '\" + id=\"' + name + '\" class="device">'+
-			'<h2>' + name + '</h2>'+
-			'<div class="turn">'+
-			'<i id=\'bulb\' class=\'far fa-lightbulb\'></i>'+
-			'<label class=\"switch\">'+
-			'<input type="checkbox">'+
-			'<span class="slider round"></span>'+
-			'</label>'+
-			'</div>'+
-			'<i id=\"' + name + 'more_button\"' + 'class="fas fa-angle-double-right" onclick="openTab(\'settings_' + name + '\')"></i>'+
-			'<div class="device_more" id="settings_' + name + '\">'+
-			'<i class=\'far fa-trash-alt\' onclick= "JSalertDelete(\'' + name + '\')"></i>'+
-			'<i id=\"' + name + 'less_button\"' + 'class=\'fas fa-angle-double-left\' onclick="closeTab(\'settings_' + name + '\')"></i>'+
-			'</div>'
-			return result;
+	var result = '<div name=\"' + name + '\" + id=\"' + name + '\" class="device">' +
+		'<h2>' + name + '</h2>' +
+		'<div class="turn">' +
+		'<i id=\'bulb\' class=\'far fa-lightbulb\'></i>' +
+		'<label class=\"switch\">' +
+		'<input type="checkbox">' +
+		'<span class="slider round"></span>' +
+		'</label>' +
+		'</div>' +
+		'<i id=\"' + name + 'more_button\"' + 'class="fas fa-angle-double-right" onclick="openTab(\'settings_' + name + '\')"></i>' +
+		'<div class="device_more" id="settings_' + name + '\">' +
+		'<i class=\'far fa-trash-alt\' onclick= "JSalertDelete(\'' + name + '\')"></i>' +
+		'<i id=\"' + name + 'less_button\"' + 'class=\'fas fa-angle-double-left\' onclick="closeTab(\'settings_' + name + '\')"></i>' +
+		'<br>'+
+			'<br>'+
+			'Znajduję się w scenach: <select name="akcesoria" id="' + name + '-select" class="w_scenach">'+
+                '</select>'+
+		'</div>'
+	return result;
 }
 
 function JSalertDeleteScena(id, name) {
-    swal({
-        title: "Jesteś pewny?",
-        text: "Nie będzie można przywrócić usuniętej sceny!",
-        icon: "warning",
-        buttons: true,
-        dangerMode: true,
-    })
-        .then((willDelete) => {
-            if (willDelete) {
-                swal("Scena " + name + " została usunięta!", {
-                    icon: "success",
-                });
-                deleteDevice(id, name)
-            } else {
-                swal("Scena " + name + " nie została usunięta!");
-            }
-        });
+	swal({
+			title: "Jesteś pewny?",
+			text: "Nie będzie można przywrócić usuniętej sceny!",
+			icon: "warning",
+			buttons: true,
+			dangerMode: true,
+		})
+		.then((willDelete) => {
+			if (willDelete) {
+				swal("Scena " + name + " została usunięta!", {
+					icon: "success",
+				});
+				deleteScene(id, name)
+			} else {
+				swal("Scena " + name + " nie została usunięta!");
+			}
+		});
 }
+
 function JSalertDeleteDomownik(id) {
-    swal({
-        title: "Jesteś pewny?",
-        text: "Czy chcesz usunąć domownika?",
-        icon: "warning",
-        buttons: true,
-        dangerMode: true,
-    })
-        .then((willDelete) => {
-            if (willDelete) {
-                usunDomownika(id)
-            } else {
-            }
-        });
+	swal({
+			title: "Jesteś pewny?",
+			text: "Czy chcesz usunąć domownika?",
+			icon: "warning",
+			buttons: true,
+			dangerMode: true,
+		})
+		.then((willDelete) => {
+			if (willDelete) {
+				usunDomownika(id)
+			} else {}
+		});
 }
+
 function deleteGroup() {
-    swal("Podaj nazwę grupy do usunięcia", {
-        content: "input",
-    })
-        .then((value) => {
-            let name = sessionStorage.getItem("Grupa");
-            if (value == null || value === "") {
-                swal(`Nie podano nazwy grupy`);
-            }else if (value === name) {
-                swal({
-                    text: "Czy chcesz usunąć grupę " + value + " ?",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                })
-                    .then((willDelete) => {
-                        if (willDelete) {
-                            location.href = 'index.html';
-                        }
-                    });
-            } else {
-                swal(`Grupa o takiej nazwie nie istnieje`);
-            }
-        });
+	swal("Podaj nazwę grupy do usunięcia", {
+			content: "input",
+		})
+		.then((value) => {
+			let name = sessionStorage.getItem("Grupa");
+			if (value == null || value === "") {
+				swal(`Nie podano nazwy grupy`);
+			} else if (value === name) {
+				swal({
+						text: "Czy chcesz usunąć grupę " + value + " ?",
+						icon: "warning",
+						buttons: true,
+						dangerMode: true,
+					})
+					.then((willDelete) => {
+						if (willDelete) {
+							location.href = 'index.html';
+						}
+					});
+			} else {
+				swal(`Grupa o takiej nazwie nie istnieje`);
+			}
+		});
 }
 
 function incrementValue(id) {
@@ -871,7 +903,6 @@ function incrementValue(id) {
 	new_value = isNaN(new_value) ? 0 : new_value;
 	new_value++;
 	document.getElementById(id).innerHTML = new_value + " " + value[1];
-	//document.getElementById('number').value = value;
 }
 
 function decrementValue(id) {
@@ -881,5 +912,4 @@ function decrementValue(id) {
 	new_value = isNaN(new_value) ? 0 : new_value;
 	new_value--;
 	document.getElementById(id).innerHTML = new_value + " " + value[1];
-	//document.getElementById('number').value = value;
 }

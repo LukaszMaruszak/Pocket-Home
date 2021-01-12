@@ -21,9 +21,9 @@
 <div class="form">
 
     <h1>Nazwa</h1>
-    <p>Podaj jak ma nazywać się scena</p>
+    <p>Podaj jak ma nazywać się grupa</p>
     <div class="ui input">
-        <input id="name" type="text" placeholder="Nazwa sceny">
+        <input id="name" type="text" placeholder="Nazwa grupy">
     </div>
     <p id="warning1" class="warning"></p>
 
@@ -97,7 +97,7 @@
 <div class="buttons">
     <button type="button" class="button button-cancel" onclick="location.href = 'index.html';">Anuluj
     </button>
-    <button type="button" id="add_button" class="button button-add" onclick="validate()">Dodaj Grupe
+    <button type="button" id="add_button" class="button button-add" onclick="validate()">Dodaj Grupę
     </button>
 </div>
 <script>
@@ -137,7 +137,7 @@
         var warning = document.getElementById("warning1");
 
         var name_correct = false;
-        const max_name = 10;
+        const max_name = 20;
 
         if (group_names.includes(name_value)) {
             warning.innerText = "Grupa o takiej nazwie już istnieje zmień nazwę";
